@@ -1,0 +1,70 @@
+<div class="admin-container" [class.sidebar-collapsed]="isSidebarCollapsed">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sidebar-header">
+      <div class="brand">
+        <span class="logo">📖</span>
+        <span class="brand-text">Cuentos Admin</span>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <a *ngFor="let item of menuItems"
+         [routerLink]="item.route"
+         routerLinkActive="active">
+
+        <span class="icon">{{ item.icon }}</span>
+        <span class="text">{{ item.label }}</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">
+        <span class="icon">🚪</span>
+        <span class="text">Cerrar sesión</span>
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+      <button class="menu-toggle" (click)="toggleSidebar()">☰</button>
+
+      <div class="search-box">
+        <input type="text" placeholder="Buscar cuentos, autores, categorías..." />
+        <span class="search-icon">🔍</span>
+      </div>
+
+      <div class="topbar-actions">
+
+        <button class="icon-btn">
+          🔔
+          <span class="badge">3</span>
+        </button>
+
+        <div class="profile">
+          <div class="avatar">👤</div>
+
+          <div class="profile-info">
+            <strong>{{ role | uppercase }}</strong>
+            <small>usuario@cuentos.com</small>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <section class="content">
+      <router-outlet></router-outlet>
+    </section>
+
+  </div>
+</div>
