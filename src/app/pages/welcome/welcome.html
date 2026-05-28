@@ -1,0 +1,40 @@
+<div class="welcome-container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <!-- <div class="logo">📚</div> -->
+
+    <h1>¡Bienvenido!</h1>
+
+    <p>¿Quién eres?</p>
+  </div>
+
+  <!-- ROLES -->
+  <div class="roles-grid">
+
+    <div
+      class="role-card"
+      *ngFor="let role of roles"
+      [style.border-color]="role.color"
+      (click)="selectRole(role)"
+    >
+
+      <div
+        class="role-avatar"
+        [style.background]="role.color"
+      >
+        {{ role.icon }}
+      </div>
+
+      <h3>{{ role.name }}</h3>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-text">
+    🌟 Aprende y diviértete leyendo cuentos mágicos 🌟
+  </div>
+
+</div>
