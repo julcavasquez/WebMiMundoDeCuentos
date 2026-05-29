@@ -16,7 +16,16 @@ export class AuthLogin {
     this.role = role;
   }
 
+  
+  isLoggedIn(): boolean {
+
+    const token = localStorage.getItem('token');
+
+    return !!token;
+  }
+
   logout(): void {
-    console.log("Sesión cerrada");
+
+    localStorage.removeItem('token');
   }
 }

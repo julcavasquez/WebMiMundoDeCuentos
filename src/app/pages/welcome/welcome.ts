@@ -1,14 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
-
-interface Role {
-  name: string;
-  icon: string;
-  color: string;
-  route: string;
-}
-
-
+import { Role } from '../../core/models/roles';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-welcome',
   standalone: true,
@@ -17,30 +10,37 @@ interface Role {
   styleUrl: './welcome.scss',
 })
 export class Welcome {
+  constructor(
+  private router: Router
+) {}
   roles: Role[] = [
     {
       name: 'Administrador',
-      icon: '👨‍💼',
+      icon: '/assets/images/roles/admin.jpeg',
       color: '#8b5cf6',
-      route: '/login/admin'
+      route: '/login/admin',
+      type: 'general'
     },
     {
       name: 'Docente',
-      icon: '👩‍🏫',
+      icon: '/assets/images/roles/docentes.jpeg',
       color: '#22c55e',
-      route: '/login/teacher'
+      route: '/login/docentes',
+      type: 'general'
     },
     {
       name: 'Alumno',
-      icon: '👦',
+      icon: '/assets/images/roles/alumno.jpeg',
       color: '#facc15',
-      route: '/login/student'
+      route: '/login/alumno',
+      type: 'alumno'
     },
     {
       name: 'Padre o Madre',
-      icon: '👨‍👩‍👧',
+      icon: '/assets/images/roles/padres.jpeg',
       color: '#ec4899',
-      route: '/login/parent'
+      route: '/login/padres',
+      type: 'general'
     }
   ];
 
@@ -48,5 +48,6 @@ export class Welcome {
     console.log('Rol seleccionado:', role.name);
 
     // luego aquí navegarás con router.navigate()
+      this.router.navigate([role.route]);
   }
 }

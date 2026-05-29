@@ -23,7 +23,7 @@
         class="role-avatar"
         [style.background]="role.color"
       >
-        {{ role.icon }}
+        <img [src]="role.icon" [alt]="role.name">
       </div>
 
       <h3>{{ role.name }}</h3>
