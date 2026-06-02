@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 
 import {
   FormBuilder,
@@ -9,6 +9,8 @@ import {
 } from '@angular/forms';
 
 import { ActivatedRoute, Router } from '@angular/router';
+import { RoleService } from '../../core/services/role.service';
+import { Role } from '../../core/models/roles';
 
 @Component({
   selector: 'app-login',
@@ -22,81 +24,54 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class Login implements OnInit {
 
-  role = '';
-
-  roleType: 'general' | 'alumno' = 'general';
-
-  roleTitle = '';
-
-  roleColor = '';
-
-  roleImage = '';
-
   loginForm!: FormGroup;
-
+private activatedRoute = inject(ActivatedRoute);
+ private roleService = inject(RoleService);
+roles = signal<Role[]>([]);
+selectedRole = signal<Role | null>(null);
   constructor(
-    private route: ActivatedRoute,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router  
   ) {}
 
   ngOnInit(): void {
 
-    this.role = this.route.snapshot.paramMap.get('role') || '';
+    const roleId = Number(
+    this.activatedRoute.snapshot.paramMap.get('roleId')
+  );
 
-    this.loadRoleData();
+  this.roleService
+    .getRoles()
+    .subscribe({
+
+      next: (response) => {
+
+        this.roles.set(response);
+
+        const role = response.find(
+          r => r.id === roleId
+        );
+
+        if (role) {
+
+          this.selectedRole.set(role);
+
+          console.log(this.selectedRole );
+
+        }
+
+      }
+
+    });
 
     this.buildForm();
 
   }
 
-  loadRoleData(): void {
-
-    switch (this.role) {
-
-      case 'admin':
-
-        this.roleTitle = 'Administrador';
-        this.roleColor = '#8b5cf6';
-        this.roleImage = '/assets/images/roles/admin.jpeg';
-        this.roleType = 'general';
-
-        break;
-
-      case 'docentes':
-
-        this.roleTitle = 'Docente';
-        this.roleColor = '#22c55e';
-        this.roleImage = '/assets/images/roles/docentes.jpeg';
-        this.roleType = 'general';
-
-        break;
-
-      case 'padres':
-
-        this.roleTitle = 'Padre o Madre';
-        this.roleColor = '#ec4899';
-        this.roleImage = '/assets/images/roles/padres.jpeg';
-        this.roleType = 'general';
-
-        break;
-
-      case 'alumno':
-
-        this.roleTitle = 'Alumno';
-        this.roleColor = '#facc15';
-        this.roleImage = '/assets/images/roles/alumno.jpeg';
-        this.roleType = 'alumno';
-
-        break;
-
-    }
-
-  }
 
   buildForm(): void {
-
-    if (this.roleType === 'general') {
+   console.log(this.selectedRole()?.tipo );
+    if (this.selectedRole()?.tipo === 'GENERAL') {
 
       this.loginForm = this.fb.group({
 

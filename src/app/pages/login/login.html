@@ -14,20 +14,19 @@
     <!-- AVATAR -->
     <div
       class="avatar-circle"
-      [style.background]="roleColor"
+      [style.background]="selectedRole()?.color"
     >
 
       <img
-        [src]="roleImage"
-        [alt]="roleTitle"
+        [src]="'/assets/images/roles/'+selectedRole()?.icon" [alt]="selectedRole()?.nombre"
       >
 
     </div>
 
     <!-- TITLE -->
-    <h1 [style.color]="roleColor">
-      {{ roleTitle }}
-    </h1>
+    <h2 [style.color]="selectedRole()?.color">
+      {{ selectedRole()?.nombre }}
+    </h2>
 
     <!-- SUBTITLE -->
     <p>
@@ -41,7 +40,7 @@
     >
 
       <!-- general -->
-      <ng-container *ngIf="roleType === 'general'">
+      <ng-container *ngIf="selectedRole()?.tipo === 'GENERAL'">
 
         <div class="form-group">
 
@@ -70,7 +69,7 @@
       </ng-container>
 
       <!-- alumno -->
-      <ng-container *ngIf="roleType === 'alumno'">
+      <ng-container *ngIf="selectedRole()?.tipo === 'ALUMNO'">
 
         <!-- AVATARES -->
   <div class="avatars-section">
@@ -219,7 +218,7 @@
         #btniniciarsesion
         type="submit"
         class="login-button"
-        [style.background]="roleColor"
+        [style.background]="selectedRole()?.color"
       >
         Iniciar sesión
       </button>

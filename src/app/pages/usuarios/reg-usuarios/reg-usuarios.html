@@ -1,0 +1,358 @@
+<div class="page-container">
+
+  <div class="form-card">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+      <div class="header-icon">
+
+        <mat-icon>person_add</mat-icon>
+
+      </div>
+
+      <div>
+
+        <h1>Registro de Usuario</h1>
+
+        <p>
+          Completa la información según el rol del usuario
+        </p>
+
+      </div>
+
+    </div>
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="save()"
+    >
+
+      <!-- ROL -->
+
+      <div class="form-group">
+
+        <label>Rol <span>*</span></label>
+
+        <div class="input-container">
+
+          <mat-icon>person_outline</mat-icon>
+
+          <select
+            formControlName="roleId"
+            class="form-control"
+          >
+
+            <option value="">
+              Selecciona un rol
+            </option>
+            @for (role of roles(); track role.id) {
+
+              <option [ngValue]="role.id">
+
+                {{ role.nombre }}
+
+              </option>
+
+            }
+
+          </select>
+
+        </div>
+
+      </div>
+
+      <!-- NOMBRES Y APELLIDOS -->
+
+      <div class="grid-2">
+
+        <div class="form-group">
+
+          <label>Nombres <span>*</span></label>
+
+          <div class="input-container">
+
+            <mat-icon>person_outline</mat-icon>
+
+            <input
+              type="text"
+              formControlName="nombres"
+              placeholder="Ingresa los nombres"
+              class="form-control"
+            >
+
+          </div>
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Apellidos <span>*</span></label>
+
+          <div class="input-container">
+
+            <mat-icon>person_outline</mat-icon>
+
+            <input
+              type="text"
+              formControlName="apellidos"
+              placeholder="Ingresa los apellidos"
+              class="form-control"
+            >
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- DATOS DEL ALUMNO -->
+
+      @if (isStudent) {
+
+        <div class="student-card">
+
+          <div class="section-title">
+
+            <mat-icon>face</mat-icon>
+
+            <h3>Datos del Usuario Alumno</h3>
+
+          </div>
+          <div class="grid-1">
+
+        <div class="form-group">
+
+          <label>Seleccionar Avatar *</label>
+              <div class="avatars">
+                @for (avatar of avatars; track avatar) {
+
+                  <div
+                    class="avatar-card"
+                    [class.selected]="selectedAvatar === avatar"
+                    (click)="selectAvatar(avatar)"
+                  >
+
+                  <img
+                    [src]="avatar"
+                    alt="Avatar"
+                  >
+
+                    @if(selectedAvatar === avatar){
+
+                      <div class="check">
+
+                        <mat-icon>check</mat-icon>
+
+                      </div>
+
+                    }
+
+                  </div>
+
+                }
+
+              </div>
+        </div>
+
+        <div class="form-group">
+
+            <label>Nombre de Usuario *</label>
+
+              <div class="input-container">
+
+                <mat-icon>person_outline</mat-icon>
+
+                <input
+                  type="text"
+                  formControlName="nom_usuario"
+                  placeholder="Ej: mateo2024"
+                  class="form-control"
+                >
+
+        </div>
+
+      </div>
+      <div class="form-group">
+             <label>PIN de 6 dígitos *</label>
+
+              <div class="pin-container">
+
+                <input
+                  maxlength="1"
+                  class="pin-input"
+                >
+
+                <input
+                  maxlength="1"
+                  class="pin-input"
+                >
+
+                <input
+                  maxlength="1"
+                  class="pin-input"
+                >
+
+                <input
+                  maxlength="1"
+                  class="pin-input"
+                >
+
+                <input
+                  maxlength="1"
+                  class="pin-input"
+                >
+
+                <input
+                  maxlength="1"
+                  class="pin-input"
+                >
+
+              </div>
+
+              <small>
+                El PIN debe tener exactamente 6 dígitos
+              </small>
+           
+
+      </div>
+
+      
+          
+
+          </div>
+
+        </div>
+
+      }
+
+      <!-- DATOS DE ACCESO -->
+
+      @if (!isStudent) {
+        <div class="access-card">
+
+        <div class="section-title">
+
+          <mat-icon>lock</mat-icon>
+
+          <h3>Datos de Acceso al Sistema</h3>
+
+        </div>
+
+        <div class="grid-1">
+
+          <div class="form-group">
+
+            <label>Correo Electrónico *</label>
+
+            <div class="input-container">
+
+              <mat-icon>mail_outline</mat-icon>
+
+              <input
+                type="email"
+                formControlName="email"
+                placeholder="Ej: usuario@correo.com"
+                class="form-control"
+              >
+
+            </div>
+
+          </div>
+        </div>
+        <div class="grid-2">
+
+        <div class="form-group">
+
+            <label>Contraseña *</label>
+
+            <div class="input-container">
+
+              <mat-icon>lock_outline</mat-icon>
+
+              <input
+                [type]="showPassword1 ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="Ingresa la contraseña"
+                class="form-control"
+              >
+
+              <mat-icon 
+                  class="eye"
+                  (click)="togglePassword1()">
+
+                 {{ showPassword1 ? 'visibility_off' : 'visibility' }}
+
+              </mat-icon>
+
+            </div>
+
+          </div>
+
+          <div class="form-group">
+
+            <label>Repite Contraseña *</label>
+
+            <div class="input-container">
+
+              <mat-icon>lock_outline</mat-icon>
+
+              <input
+                [type]="showPassword2 ? 'text' : 'password'"
+                formControlName="password2"
+                placeholder="Ingresa la contraseña"
+                class="form-control"
+              >
+
+              <mat-icon 
+                  class="eye"
+                  (click)="togglePassword2()">
+
+                 {{ showPassword2 ? 'visibility_off' : 'visibility' }}
+
+              </mat-icon>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+      }
+
+      {{form.value | json}}
+      <!-- BOTONES -->
+
+      <div class="actions">
+
+        <button
+          type="button"
+          class="btn-cancel"
+        >
+
+          <mat-icon>close</mat-icon>
+
+          Cancelar
+
+        </button>
+
+        <button
+          type="submit"
+          class="btn-save"
+        >
+
+          <mat-icon>person_add</mat-icon>
+
+          Guardar Usuario
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

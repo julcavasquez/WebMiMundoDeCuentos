@@ -1,7 +1,9 @@
 export interface Role {
-  name: string;
+  id: number;
+  nombre: string;
   icon: string;
   color: string;
   route: string;
-  type: 'general' | 'alumno';
+  tipo: string;
+  estado:number;
 }

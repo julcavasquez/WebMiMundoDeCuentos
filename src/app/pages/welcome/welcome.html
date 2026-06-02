@@ -11,10 +11,10 @@
 
   <!-- ROLES -->
   <div class="roles-grid">
+    @for (role of roles(); track role.id) {
 
-    <div
+            <div
       class="role-card"
-      *ngFor="let role of roles"
       [style.border-color]="role.color"
       (click)="selectRole(role)"
     >
@@ -23,12 +23,16 @@
         class="role-avatar"
         [style.background]="role.color"
       >
-        <img [src]="role.icon" [alt]="role.name">
+        <img [src]="'/assets/images/roles/'+role.icon" [alt]="role.nombre">
       </div>
 
-      <h3>{{ role.name }}</h3>
+      <h3>{{ role.nombre }}</h3>
 
     </div>
+
+            }
+
+    
 
   </div>
 

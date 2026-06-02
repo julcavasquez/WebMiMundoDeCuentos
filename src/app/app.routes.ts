@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Login } from './pages/login/login';
 import { Welcome } from './pages/welcome/welcome';
+import { RegUsuarios } from './pages/usuarios/reg-usuarios/reg-usuarios';
 import { MainLayoutComponent } from './pages/main-layout/main-layout';
 import { authGuard } from './core/guards/auth-guard';
 export const routes: Routes = [
@@ -15,11 +16,17 @@ export const routes: Routes = [
     component: Welcome
   },
   {
-  path: 'login/:role',
+  path: 'login/:roleId',
   loadComponent: () =>
     import('./pages/login/login')
       .then(m => m.Login)
-},
+  },
+   {
+    path: 'usuarios/nvousuario',
+    loadComponent: () =>
+      import('./pages/usuarios/reg-usuarios/reg-usuarios')
+        .then(m => m.RegUsuarios)
+  },
   
   {
     path: '',
