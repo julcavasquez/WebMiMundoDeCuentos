@@ -11,7 +11,9 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoleService } from '../../core/services/role.service';
 import { Role } from '../../core/models/roles';
+import { UsuariosService } from '../../core/services/usuarios.service';
 
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -23,10 +25,11 @@ import { Role } from '../../core/models/roles';
   styleUrl: './login.scss'
 })
 export class Login implements OnInit {
-
+  submitted = false;
   loginForm!: FormGroup;
 private activatedRoute = inject(ActivatedRoute);
  private roleService = inject(RoleService);
+ private usuariosService = inject(UsuariosService);
 roles = signal<Role[]>([]);
 selectedRole = signal<Role | null>(null);
   constructor(
@@ -45,7 +48,6 @@ selectedRole = signal<Role | null>(null);
     .subscribe({
 
       next: (response) => {
-
         this.roles.set(response);
 
         const role = response.find(
@@ -56,7 +58,8 @@ selectedRole = signal<Role | null>(null);
 
           this.selectedRole.set(role);
 
-          console.log(this.selectedRole );
+          console.log(this.selectedRole()?.tipo);
+           this.buildForm();
 
         }
 
@@ -64,18 +67,17 @@ selectedRole = signal<Role | null>(null);
 
     });
 
-    this.buildForm();
+   
 
   }
 
 
   buildForm(): void {
-   console.log(this.selectedRole()?.tipo );
+   console.log(this.selectedRole()?.tipo);
     if (this.selectedRole()?.tipo === 'GENERAL') {
-
       this.loginForm = this.fb.group({
 
-        email: [
+        correo: [
           '',
           [
             Validators.required,
@@ -124,16 +126,56 @@ selectedRole = signal<Role | null>(null);
   }
 
   onSubmit(): void {
-
+    this.submitted = true;
     if (this.loginForm.invalid) {
-
-      this.loginForm.markAllAsTouched();
-
       return;
-
     }
 
-    console.log(this.loginForm.value);
+    this.usuariosService
+    .login(
+      this.loginForm.getRawValue()
+    )
+    .subscribe({
+      next: (response: any) => {
+        Swal.fire({
+            title: '✅ Login exitoso',
+            text: 'Bienvenido',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#3085d6'
+          }).then(() => {
+            this.router.navigate(['/panel']);
+            // if(res.rol == 'ADMINISTRADOR'){
+            // this.router.navigate(['/admin/dashboard']);
+            // }else{
+            //   if(res.rol == 'estudiante'){
+            //     this.router.navigate(['/estudiante/panel']);
+            //   }
+            // }
+          });
+        localStorage.setItem(
+          'token',response.token
+
+        );
+        localStorage.setItem(
+          'user',JSON.stringify(response.user)
+        );
+
+      },
+
+      error: (error) => {
+         console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Acceso denegado',
+          text:
+            'Correo o contraseña incorrectos'
+        });
+
+      }
+
+    });
+
 
   }
 
@@ -145,6 +187,10 @@ selectedRole = signal<Role | null>(null);
   '/assets/images/avatars/dragon.png'
 
 ];
+
+  get f() {
+    return this.loginForm.controls;
+  }
 
 selectedAvatar = '';
 

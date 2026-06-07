@@ -34,7 +34,8 @@
     </p>
 
     <!-- FORM -->
-    <form
+     @if (loginForm) {
+ <form
       [formGroup]="loginForm"
       (ngSubmit)="onSubmit()"
     >
@@ -48,9 +49,30 @@
 
           <input
             type="email"
-            formControlName="email"
-            placeholder="correo@ejemplo.com"
+            id="correo"
+            formControlName="correo"
+            [ngClass]="{'is-invalid': submitted && f['correo'].errors}" placeholder="ejemplo@correo.com"
           >
+     
+        @if (submitted) {
+
+  @if (f['correo'].errors?.['required']) {
+
+    <div class="error-message">
+      El correo es obligatorio
+    </div>
+
+  }
+
+  @if (f['correo'].errors?.['email']) {
+
+    <div class="error-message">
+      Ingrese un correo válido
+    </div>
+
+  }
+
+}
 
         </div>
 
@@ -61,8 +83,29 @@
           <input
             type="password"
             formControlName="password"
+            [ngClass]="{'is-invalid': submitted && f['password'].errors}"
             placeholder="********"
           >
+          
+             @if (submitted) {
+
+                  @if (f['password'].errors?.['required']) {
+
+                    <div class="error-message">
+                      La contraseña es obligatoria
+                    </div>
+
+                  }
+
+                  @if (f['password'].errors?.['minlength']) {
+
+                    <div class="error-message">
+                      La contraseña debe tener al menos 6 caracteres
+                    </div>
+
+                  }
+
+}
 
         </div>
 
@@ -224,6 +267,10 @@
       </button>
 
     </form>
+
+
+}
+   
 
   </div>
 

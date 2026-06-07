@@ -527,3 +527,14 @@ form {
 
   object-fit: cover;
 }
+
+
+.is-invalid {
+  border: 2px solid #ef4444 !important;
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 13px;
+  margin-top: 4px;
+}

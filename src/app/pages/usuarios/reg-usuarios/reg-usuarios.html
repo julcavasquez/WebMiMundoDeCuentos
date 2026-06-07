@@ -1,4 +1,3 @@
-<div class="page-container">
 
   <div class="form-card">
 
@@ -24,13 +23,17 @@
 
     </div>
 
-    <form
-      [formGroup]="form"
-      (ngSubmit)="save()"
-    >
+    <form [formGroup]="form"
+      (ngSubmit)="save()">
 
-      <!-- ROL -->
+  <div class="form-sections">
 
+    <!-- IZQUIERDA -->
+
+    <div class="form-section">
+
+      <h3>Datos Generales</h3>
+ 
       <div class="form-group">
 
         <label>Rol <span>*</span></label>
@@ -62,12 +65,7 @@
         </div>
 
       </div>
-
-      <!-- NOMBRES Y APELLIDOS -->
-
-      <div class="grid-2">
-
-        <div class="form-group">
+       <div class="form-group">
 
           <label>Nombres <span>*</span></label>
 
@@ -104,6 +102,99 @@
           </div>
 
         </div>
+
+      <div class="form-group">
+
+        <label>Avatar</label>
+
+        <!-- Avatares -->
+
+      </div>
+
+    </div>
+
+    <!-- DERECHA -->
+
+    <div class="form-section">
+
+      <h3>Datos de Acceso</h3>
+
+      <div class="form-group">
+
+        <label>Correo</label>
+
+        <input
+          type="email"
+          formControlName="email"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Usuario</label>
+
+        <input
+          type="text"
+          formControlName="username"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Contraseña</label>
+
+        <input
+          type="password"
+          formControlName="password"
+        >
+
+      </div>
+
+      @if(isStudent){
+
+        <div class="form-group">
+
+          <label>PIN</label>
+
+          <input
+            type="text"
+            formControlName="pin"
+          >
+
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+  <div class="form-actions">
+
+    <button type="submit">
+
+      Guardar Usuario
+
+    </button>
+
+  </div>
+
+</form>
+    <form
+      [formGroup]="form"
+      (ngSubmit)="save()"
+    >
+      <!-- ROL -->
+      
+
+
+      <!-- NOMBRES Y APELLIDOS -->
+
+      <div class="grid-2">
+
+       
 
       </div>
 
@@ -355,4 +446,3 @@
 
   </div>
 
-</div>

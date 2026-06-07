@@ -1,52 +1,101 @@
 import { MenuItem } from '../models/menu-item';
 
-export const MENU_ITEMS: MenuItem[] = [
-  {
-    label: 'Dashboard',
-    icon: '🏠',
-    route: '/dashboard',
-    roles: ['admin', 'docente', 'alumno', 'padre']
-  },
-  {
-    label: 'Cuentos',
-    icon: '📚',
-    route: '/stories',
-    roles: ['admin', 'docente']
-  },
-  {
-    label: 'Crear cuento',
-    icon: '➕',
-    route: '/stories/create',
-    roles: ['admin', 'docente']
-  },
-  {
-    label: 'Categorías',
-    icon: '🏷️',
-    route: '/categories',
-    roles: ['admin']
-  },
-  {
-    label: 'Usuarios',
-    icon: '👥',
-    route: '/users',
-    roles: ['admin']
-  },
-  {
-    label: 'Mis cuentos',
-    icon: '📖',
-    route: '/my-stories',
-    roles: ['alumno']
-  },
-  {
-    label: 'Progreso',
-    icon: '📊',
-    route: '/progress',
-    roles: ['docente', 'padre']
-  },
-  {
-    label: 'Configuración',
-    icon: '⚙️',
-    route: '/settings',
-    roles: ['admin']
-  }
-];
+export const MENU_ROL: Record<number, MenuItem[]> = {
+
+  // ADMINISTRADOR
+
+  1: [
+
+    {
+      label: 'Dashboard',
+      icon: 'dashboard',
+      route: '/dashboard'
+    },
+
+    {
+      label: 'Usuarios',
+      icon: 'group',
+      route: '/admin/usuarios'
+    },
+
+    {
+      label: 'Roles',
+      icon: 'security',
+      route: '/roles'
+    },
+
+    {
+      label: 'Configuración',
+      icon: 'settings',
+      route: '/configuracion'
+    }
+
+  ],
+
+  // DOCENTE
+
+  2: [
+
+    {
+      label: 'Dashboard',
+      icon: 'dashboard',
+      route: '/dashboard'
+    },
+
+    {
+      label: 'Mis Estudiantes',
+      icon: 'school',
+      route: '/estudiantes'
+    },
+
+    {
+      label: 'Cuentos',
+      icon: 'menu_book',
+      route: '/cuentos'
+    }
+
+  ],
+
+  // ALUMNO
+
+  3: [
+
+    {
+      label: 'Inicio',
+      icon: 'home',
+      route: '/dashboard'
+    },
+
+    {
+      label: 'Mis Cuentos',
+      icon: 'auto_stories',
+      route: '/mis-cuentos'
+    },
+
+    {
+      label: 'Juegos',
+      icon: 'sports_esports',
+      route: '/juegos'
+    }
+
+  ],
+
+  // PADRE
+
+  4: [
+
+    {
+      label: 'Inicio',
+      icon: 'home',
+      route: '/dashboard'
+    },
+
+    {
+      label: 'Progreso',
+      icon: 'analytics',
+      route: '/progreso'
+    }
+
+  ]
+
+};

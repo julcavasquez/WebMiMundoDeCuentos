@@ -25,7 +25,15 @@ export class AuthLogin {
   }
 
   logout(): void {
-
     localStorage.removeItem('token');
   }
+
+  getUsuarioLogueado() {
+
+  const user =
+    localStorage.getItem('user');
+    return user
+      ? JSON.parse(user)
+      : null;
+    }
 }

@@ -1,0 +1,271 @@
+<div class="table-card">
+
+  <div class="table-header">
+    <h2>Lista de Usuarios</h2>
+
+    <button  mat-raised-button
+      color="primary"
+       [routerLink]="['/admin/usuarios/nvousuarios']">
+      <span class="material-icons">add</span>
+      Nuevo Usuario
+    </button>
+
+  </div>
+
+  <!-- FILTROS -->
+
+  <div class="table-filters">
+
+    <div class="search-box">
+
+      <span class="material-icons">search</span>
+
+      <input
+        type="text"
+        placeholder="Buscar usuario..."
+        [(ngModel)]="search"
+        (input)="filterUsers()"
+      >
+
+    </div>
+
+  </div>
+
+  <!-- TABLA -->
+
+  <div class="table-wrapper">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>ID</th>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>Correo</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        @for(usuario of paginatedUsers(); track usuario.id_usu){
+
+          <tr>
+
+            <td>{{ $index +1 }}</td>
+
+            <td>{{ usuario.nombres }}</td>
+
+            <td>{{ usuario.apellidos }}</td>
+
+            <td>{{ usuario.correo }}</td>
+
+            <td>{{ usuario.rol }}</td>
+
+            <td>
+
+              @if(usuario.estado === 1){
+
+                <span class="badge active">
+                  Activo
+                </span>
+
+              } @else {
+
+                <span class="badge inactive">
+                  Inactivo
+                </span>
+
+              }
+
+            </td>
+
+            <td>
+
+              <!-- EDITAR -->
+
+              <button
+                class="icon-btn edit"
+                matTooltip="Editar usuario"
+                matTooltipPosition="above"
+              >
+<!-- (click)="edit(usuario)" -->
+                <span class="material-icons">
+                  edit
+                </span>
+
+              </button>
+
+              <!-- ACTIVAR / DESACTIVAR -->
+
+              <button
+                class="icon-btn lock"
+                 [matTooltip]="usuario.estado === 1 ? 'Desactivar usuario' : 'Activar usuario'"
+                 matTooltipPosition="above"
+                 (click)="cambiarEstadoUsu(usuario)"
+              >
+<!-- (click)="toggleStatus(usuario)" -->
+                <span class="material-icons">
+
+                  {{
+                    usuario.estado === 1
+                    ? 'lock_open'
+                    : 'lock'
+                  }}
+
+                </span>
+
+              </button>
+
+              <!-- ELIMINAR -->
+           <button
+  class="icon-btn delete"
+  matTooltip="Eliminar usuario"
+  matTooltipPosition="above"
+  (click)="eliminarUsuario(usuario)"
+>
+  <span class="material-icons">
+    delete
+  </span>
+</button>
+
+  
+
+       
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <!-- PAGINACIÓN -->
+
+  <div class="pagination">
+
+    <button
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+    >
+      Anterior
+    </button>
+
+    <span>
+
+      Página {{ currentPage }}
+
+      de
+
+      {{ totalPages }}
+
+    </span>
+
+    <button
+     mat-button
+     color="primary"
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+    >
+      Siguiente
+    </button>
+
+  </div>
+
+</div>
+<!-- <div class="table-container">
+  <table>
+
+    <thead>
+
+      <tr>
+
+        <th>N°</th>
+
+        <th>Nombres</th>
+
+        <th>Apellidos</th>
+
+        <th>Correo</th>
+
+        <th>Rol</th>
+
+        <th>Estado</th>
+
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      @for(
+        usuario of usuarios;
+        track usuario.id_usu
+      ){
+
+        <tr>
+
+          <td>
+            {{ $index +1 }}
+          </td>
+
+          <td>
+            {{ usuario.nombres }}
+          </td>
+
+          <td>
+            {{ usuario.apellidos }}
+          </td>
+
+          <td>
+            {{ usuario.correo }}
+          </td>
+
+          <td>
+
+            <span class="role">
+
+              {{ usuario.rol }}
+
+            </span>
+
+          </td>
+
+          <td>
+
+            @if(usuario.estado === 1){
+
+              <span class="badge active">
+                Activo
+              </span>
+
+            } @else {
+
+              <span class="badge inactive">
+                Inactivo
+              </span>
+
+            }
+
+          </td>
+
+        </tr>
+
+      }
+
+    </tbody>
+
+  </table>
+
+</div> -->

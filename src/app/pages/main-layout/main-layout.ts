@@ -1,29 +1,39 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { AuthLogin } from '../../core/services/auth-login';
-import { MENU_ITEMS } from '../../core/config/menu.config';
+import { MENU_ROL } from '../../core/config/menu.config';
 import { MenuItem } from '../../core/models/menu-item';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterOutlet, RouterLink,
+    MatIconModule],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss'
 })
-export class MainLayoutComponent {
+export class MainLayoutComponent implements OnInit{
 
   private authService = inject(AuthLogin);
 
   isSidebarCollapsed = false;
+  menuItems: MenuItem[] = [];
 
-  role = this.authService.getRole();
+  ngOnInit(): void {
 
-  menuItems: MenuItem[] = MENU_ITEMS.filter(item =>
-    item.roles.includes(this.role)
-  );
+    const user =
+      this.authService
+        .getUsuarioLogueado();
+    console.log(user);
+    if (user) {
+      this.menuItems = MENU_ROL[user.rolId] || [];
+      console.log(this.menuItems);
+    }
+
+  }
 
   toggleSidebar(): void {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
