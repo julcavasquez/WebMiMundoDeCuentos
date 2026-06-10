@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_CONFIG } from '../config/api.config';
+import { TipoDocumento } from '../models/tipos-doc';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,14 @@ private http = inject(HttpClient);
    getAllUsuarios(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/list-usuarios`);
   }
+
+  getAllTipoDoc(): Observable<TipoDocumento[]> {
+  
+      return this.http.get<TipoDocumento[]>(
+        `${this.apiUrl}/list-tiposdoc`
+      );
+  
+    }
 
   cambiarEstadoUsuario(id: number){
     return this.http.patch(`${this.apiUrl}/${id}/update-estado`, {});

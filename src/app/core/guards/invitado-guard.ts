@@ -10,7 +10,7 @@ export const invitadoGuard: CanActivateFn = () => {
 
   if (token) {
 
-    router.navigate(['/panel']);
+    router.navigate(['/admin']);
 
     return false;
 

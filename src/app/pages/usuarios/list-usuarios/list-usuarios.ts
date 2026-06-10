@@ -15,7 +15,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     FormsModule,
     MatButtonModule,
     MatTooltipModule,
-    RouterOutlet, RouterLink,],
+    RouterLink],
   templateUrl: './list-usuarios.html',
   styleUrl: './list-usuarios.scss',
 })

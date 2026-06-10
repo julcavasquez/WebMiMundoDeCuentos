@@ -52,7 +52,7 @@ export const routes: Routes = [
       path: 'usuarios/nvousuarios',
       canActivate: [rolGuard],
       data: {
-        roles: [1]
+      roles: [1]
       },
       loadComponent: () =>
         import('./pages/usuarios/reg-usuarios/reg-usuarios')
