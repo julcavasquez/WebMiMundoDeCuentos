@@ -1,0 +1,308 @@
+<div class="section-info">
+  <span class="material-icons"> info </span>
+
+  <span> El cuento que crees será asignado automáticamente a tu sección: </span>
+
+  <span class="section-badge"> 3° A </span>
+</div>
+<div class="form-card">
+  <!-- HEADER -->
+  <div class="wizard-header">
+    @if (currentStep > 1) {
+      <button class="btn btn-outline-secondary" (click)="previousStep()">← Volver</button>
+    }
+
+    <div class="step-badge">Paso {{ currentStep }} de 3</div>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="save()">
+    @if (currentStep === 1) {
+      @if (loadingCuento) {
+        <div class="loading-overlay">
+          <div class="loading-card">
+            <div class="magic-book">📖</div>
+            <h4>Generando cuento...</h4>
+            <p>La inteligencia artificial está creando una historia mágica para tus alumnos.</p>
+            <div class="loading-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      }
+      <div class="card-header">
+        <h2>Datos generales del Cuento</h2>
+        <p>Genera un cuento con IA para fortalecer la comprensión lectora de tus alumnos.</p>
+      </div>
+      <div class="card-body">
+        <!-- DATOS GENERALES -->
+
+        <div class="story-section">
+          <div class="section-title">
+            <span class="step-number"> 1 </span>
+
+            <h3>Datos Generales</h3>
+          </div>
+
+          <div class="form-group">
+            <label> Título del cuento * </label>
+
+            <input type="text" formControlName="titulo" placeholder="Ej. El bosque encantado" />
+          </div>
+
+          <div class="form-group">
+            <label> Tema * </label>
+
+            <select formControlName="tema" class="form-control">
+              <option value="" disabled>Selecciona un Tema.</option>
+              @for (tema of temas(); track tema.id_tema) {
+                <option [ngValue]="tema.id_tema">
+                  {{ tema.nombre }}
+                </option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label> Nivel de dificultad * </label>
+
+            <select formControlName="dificultad" class="form-control">
+              <option value="" disabled>Selecciona Nivel de Dificultad.</option>
+              <option>Básico</option>
+              <option>Intermedio</option>
+              <option>Avanzado</option>
+            </select>
+          </div>
+
+          <!-- <div class="form-group">
+          <label> Imagen de portada </label>
+
+          <div class="image-options">
+            <button type="button" class="option-btn">📁 Subir imagen</button>
+
+            <button type="button" class="option-btn ia-btn" (click)="generarPortada()">
+              ✨ Generar con IA
+            </button>
+          </div>
+
+          <div class="upload-area">
+            <span class="material-icons"> image </span>
+
+            <p>Vista previa de la portada</p>
+            @if (imagePreview) {
+              <img [src]="imagePreview" class="img-fluid rounded" />
+            }
+          </div>
+        </div> -->
+          <div class="form-group">
+            <label> Personaje principal </label>
+            <input
+              type="text"
+              formControlName="personajePrincipal"
+              placeholder="Ej. Un niño valiente"
+            />
+          </div>
+
+          <div class="form-group">
+            <label> Lugar donde ocurre la historia </label>
+            <input type="text" formControlName="escenario" placeholder="Ej. En un bosque mágico" />
+          </div>
+        </div>
+
+        <!-- GENERAR CON IA -->
+
+        <div class="story-section">
+          <div class="section-title">
+            <span class="step-number"> 2 </span>
+
+            <h3>Trama o idea principal</h3>
+          </div>
+
+          <div class="form-group">
+            <label> Describe en pocas palabras de que trata el cuento...</label>
+            <textarea
+              rows="23"
+              formControlName="trama"
+              placeholder="Describe de qué tratará el cuento..."
+            ></textarea>
+          </div>
+
+          <button type="button" class="btn-generate" (click)="nextStep()">
+            <span class="material-icons"> auto_awesome </span>
+
+            Generar Cuento con IA
+          </button>
+
+          <small class="ai-info">
+            💡 La IA generará un cuento único basado en la información proporcionada.
+          </small>
+        </div>
+      </div>
+    }
+
+    @if (currentStep === 2) {
+      @if (loadingCuento) {
+        <div class="loading-overlay">
+          <div class="loading-card">
+            <div class="magic-book">📖</div>
+            <h4>Generando cuento...</h4>
+            <p>La inteligencia artificial está creando una historia mágica para tus alumnos.</p>
+            <div class="loading-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      }
+      <div class="card-header">
+        <h2>Borrador del Cuento generado</h2>
+        <p>Revisa el cuento generado por la IA. Tienes la opción de Editarlo</p>
+      </div>
+      <div class="card-body-borrador">
+        <!-- DATOS GENERALES -->
+
+        <div class="story-section">
+          <div class="section-title d-flex justify-content-between">
+            <div class="card-title">
+              <span class="step-number"> 1 </span>
+              <h3 style="padding-top: 10px">Cuento generado con IA</h3>
+            </div>
+
+            <span class="badge bg-success"> Borrador </span>
+          </div>
+
+          <div class="form-group">
+            <label> Título del cuento </label>
+            <input type="text" formControlName="titulo" placeholder="Ej. El bosque encantado" />
+          </div>
+          <div class="form-group">
+            <label> Cuento</label>
+
+            <textarea
+              rows="23"
+              formControlName="contenido"
+              placeholder="Describe de qué tratará el cuento..."
+              [readonly]="!editandoCuento"
+            ></textarea>
+            <div class="cuento-stats">
+              <span>
+                Palabras:
+                <strong>
+                  {{ cantidadPalabras }}
+                </strong>
+              </span>
+
+              <span>
+                Caracteres:
+                <strong>
+                  {{ cantidadCaracteres }}
+                </strong>
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            @if (!editandoCuento) {
+              <div class="col-md-6">
+                <button class="btn btn-outline-primary w-100" (click)="btnEdicion()">
+                  <span class="material-icons"> edit_note </span>
+                  Editar cuento
+                </button>
+              </div>
+            }
+
+            @if (editandoCuento) {
+              <div class="col-md-6">
+                <button class="btn btn-outline-primary w-100" (click)="btnGuardarCambios()">
+                  <span class="material-icons"> save </span>
+                  Guardar Cambios
+                </button>
+              </div>
+            }
+
+            <div class="col-md-6">
+              <button
+                class="btn btn-outline-secondary w-100"
+                [disabled]="regeneraciones >= 3"
+                (click)="regenerarCuento()"
+              >
+                <span class="material-icons">generating_tokens</span>
+                Regenerar cuento
+              </button>
+              <small class="text-muted">
+                Regeneraciones:
+                {{ regeneraciones }}/3
+              </small>
+            </div>
+          </div>
+
+          <button type="button" class="btn-generate w-100 mt-3" (click)="nextStep()">
+            <span class="material-icons">save_as</span>
+
+            Guardar borrador
+          </button>
+          <div class="info-box">
+            <span class="icon"> 💡 </span>
+
+            <div>
+              Puedes guardar el borrador y continuar más tarde. El cuento permanecerá disponible
+              para generar preguntas posteriormente.
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </form>
+</div>
+
+<div class="cuento-container">
+  <!-- HEADER -->
+
+  <!-- PASO 1 -->
+
+  <!-- PASO 2 -->
+
+  <!-- PASO 3 -->
+
+  <div *ngIf="currentStep === 3">
+    <div class="page-title">
+      <h3>Generar preguntas con IA</h3>
+    </div>
+
+    <div class="card-custom">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="question-box">
+            <h5>Literal</h5>
+
+            <label> Cantidad </label>
+
+            <input type="number" min="1" max="10" value="5" class="form-control" />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="question-box">
+            <h5>Inferencial</h5>
+
+            <label> Cantidad </label>
+
+            <input type="number" min="1" max="10" value="3" class="form-control" />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="question-box">
+            <h5>Crítico</h5>
+
+            <label> Cantidad </label>
+
+            <input type="number" min="1" max="10" value="2" class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary w-100 mt-4">✨ Generar preguntas</button>
+    </div>
+  </div>
+</div>

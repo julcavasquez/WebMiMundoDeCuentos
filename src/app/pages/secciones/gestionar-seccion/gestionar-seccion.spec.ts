@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MainLayoutComponent } from './main-layout';
+import { GestionarSeccion } from './gestionar-seccion';
 
-describe('MainLayout', () => {
-  let component: MainLayoutComponent;
-  let fixture: ComponentFixture<MainLayoutComponent>;
+describe('GestionarSeccion', () => {
+  let component: GestionarSeccion;
+  let fixture: ComponentFixture<GestionarSeccion>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MainLayoutComponent],
+      imports: [GestionarSeccion],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MainLayoutComponent);
+    fixture = TestBed.createComponent(GestionarSeccion);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

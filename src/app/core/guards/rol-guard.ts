@@ -1,20 +1,17 @@
-import {
-  CanActivateFn
-} from '@angular/router';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 
-export const rolGuard:
-CanActivateFn = (route) => {
+export const rolGuard: CanActivateFn = (route) => {
+  const router = inject(Router);
 
-  const user =
-    JSON.parse(
-      localStorage.getItem('user') || '{}'
-    );
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-  const roles =
-    route.data['roles'];
+  const rolesPermitidos = route.data['roles'] || [];
 
-  return roles.includes(
-    user.rolId
-  );
+  if (rolesPermitidos.includes(user.rolId)) {
+    return true;
+  }
 
+  // Si no tiene permisos, regresar al dashboard
+  return router.parseUrl('/panel');
 };

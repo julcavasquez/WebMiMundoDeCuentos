@@ -1,0 +1,280 @@
+/*====================================================
+  TITULOS
+====================================================*/
+
+h2 {
+  color: #2d3748;
+  font-weight: 700;
+}
+
+.text-purple {
+  color: #6f42c1;
+}
+
+/*====================================================
+  ICONO SUPERIOR
+====================================================*/
+
+.page-icon {
+  width: 70px;
+  height: 70px;
+
+  border-radius: 18px;
+
+  background: linear-gradient(135deg, #7b4dff, #673ab7);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+
+  font-size: 30px;
+
+  box-shadow: 0 10px 25px rgba(111, 66, 193, 0.25);
+}
+
+/*====================================================
+  BOTONES
+====================================================*/
+
+.btn-purple {
+  background: #6f42c1;
+  color: white;
+
+  border: none;
+
+  transition: 0.25s;
+}
+
+.btn-purple:hover {
+  background: #5c35a5;
+
+  transform: translateY(-2px);
+}
+
+.btn-outline-purple {
+  border: 1px solid #6f42c1;
+
+  color: #6f42c1;
+}
+
+.btn-outline-purple:hover {
+  background: #6f42c1;
+
+  color: white;
+}
+
+/*====================================================
+  CARDS
+====================================================*/
+
+.card {
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  transition: 0.25s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.08) !important;
+}
+
+/*====================================================
+  ICONO IMPORTANTE
+====================================================*/
+
+.info-icon {
+  width: 52px;
+
+  height: 52px;
+
+  border-radius: 50%;
+
+  background: #ede9fe;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  color: #6f42c1;
+
+  font-size: 25px;
+}
+
+/*====================================================
+ TABLA
+====================================================*/
+
+.table {
+  margin-bottom: 0;
+}
+
+.table thead {
+  background: #f7f5fc;
+}
+
+.table thead th {
+  border: none;
+
+  color: #5f6368;
+
+  font-size: 0.92rem;
+
+  font-weight: 700;
+
+  padding: 18px;
+}
+
+.table tbody td {
+  padding: 18px;
+
+  vertical-align: middle;
+
+  border-top: 1px solid #f1f3f4;
+}
+
+.table-hover tbody tr {
+  transition: 0.25s;
+}
+
+.table-hover tbody tr:hover {
+  background: #faf7ff;
+}
+
+/*====================================================
+ BADGE SECCION
+====================================================*/
+
+.badge-seccion {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 40px;
+
+  height: 40px;
+
+  border-radius: 50%;
+
+  background: #ede9fe;
+
+  color: #6f42c1;
+
+  font-weight: 700;
+
+  font-size: 17px;
+}
+
+/*====================================================
+ BADGES ESTADO
+====================================================*/
+
+.bg-success-subtle {
+  background: #dcfce7;
+}
+
+.bg-warning-subtle {
+  background: #fef3c7;
+}
+
+.text-success {
+  color: #16a34a !important;
+}
+
+.text-warning {
+  color: #ca8a04 !important;
+}
+
+/*====================================================
+ MODAL
+====================================================*/
+
+.modal-content {
+  border-radius: 20px;
+}
+
+.modal-purple {
+  background: linear-gradient(135deg, #7b4dff, #673ab7);
+}
+
+.modal-body {
+  background: #fafafa;
+}
+
+.form-control,
+.form-select {
+  border-radius: 12px;
+
+  min-height: 48px;
+
+  border: 1px solid #dcdcdc;
+
+  transition: 0.2s;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #7b4dff;
+
+  box-shadow: 0 0 0 0.18rem rgba(123, 77, 255, 0.15);
+}
+
+textarea.form-control {
+  min-height: 110px;
+}
+
+/*====================================================
+ BOTONES TABLA
+====================================================*/
+
+.btn-sm {
+  width: 38px;
+
+  height: 38px;
+
+  border-radius: 10px;
+}
+
+/*====================================================
+ FOOTER TABLA
+====================================================*/
+
+.card-footer {
+  border-top: 1px solid #ececec;
+}
+
+/*====================================================
+ RESPONSIVE
+====================================================*/
+
+@media (max-width: 992px) {
+  .page-icon {
+    width: 60px;
+
+    height: 60px;
+
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-icon {
+    display: none;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .table {
+    min-width: 900px;
+  }
+}

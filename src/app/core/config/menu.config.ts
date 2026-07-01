@@ -1,101 +1,124 @@
 import { MenuItem } from '../models/menu-item';
 
 export const MENU_ROL: Record<number, MenuItem[]> = {
-
   // ADMINISTRADOR
 
   1: [
-
     {
       label: 'Dashboard',
-      icon: 'dashboard',
-      route: '/dashboard'
+      icon: 'home',
+      route: '/dashboard',
     },
-
+    {
+      label: 'Años Lectivos',
+      icon: 'calendar_month',
+      route: '/panel/anios/list_anios',
+    },
     {
       label: 'Usuarios',
       icon: 'group',
-      route: '/admin/usuarios'
+      route: '/panel/usuarios',
+    },
+    {
+      label: 'Secciones',
+      icon: 'dashboard',
+      route: '/panel/secciones/list-secciones',
     },
 
     {
       label: 'Roles',
       icon: 'security',
-      route: '/roles'
+      route: '/roles',
     },
 
     {
       label: 'Configuración',
       icon: 'settings',
-      route: '/configuracion'
-    }
-
+      route: '/configuracion',
+    },
   ],
 
   // DOCENTE
 
   2: [
-
     {
       label: 'Dashboard',
       icon: 'dashboard',
-      route: '/dashboard'
-    },
-
-    {
-      label: 'Mis Estudiantes',
-      icon: 'school',
-      route: '/estudiantes'
-    },
-
-    {
-      label: 'Cuentos',
-      icon: 'menu_book',
-      route: '/cuentos'
-    }
-
-  ],
-
-  // ALUMNO
-
-  3: [
-
-    {
-      label: 'Inicio',
-      icon: 'home',
-      route: '/dashboard'
+      route: '/dashboard',
     },
 
     {
       label: 'Mis Cuentos',
       icon: 'auto_stories',
-      route: '/mis-cuentos'
+      route: '/cuentos',
+    },
+
+    {
+      label: 'Crear Cuentos',
+      icon: 'add_circle',
+      route: '/panel/cuentos/nvocuento',
+    },
+
+    {
+      label: 'Actividades',
+      icon: 'assignment',
+      route: '/cuentos',
+    },
+
+    {
+      label: 'Mis Alumnos',
+      icon: 'groups',
+      route: '/cuentos',
+    },
+
+    {
+      label: 'Resultados',
+      icon: 'analytics',
+      route: '/cuentos',
+    },
+
+    {
+      label: 'Ranking',
+      icon: 'emoji_events',
+      route: '/cuentos',
+    },
+  ],
+
+  // ALUMNO
+
+  3: [
+    {
+      label: 'Inicio',
+      icon: 'home',
+      route: '/dashboard',
+    },
+
+    {
+      label: 'Mis Cuentos',
+      icon: 'auto_stories',
+      route: '/mis-cuentos',
     },
 
     {
       label: 'Juegos',
       icon: 'sports_esports',
-      route: '/juegos'
-    }
-
+      route: '/juegos',
+    },
   ],
 
   // PADRE
 
   4: [
-
     {
       label: 'Inicio',
       icon: 'home',
-      route: '/dashboard'
+      route: '/dashboard',
     },
 
     {
       label: 'Progreso',
       icon: 'analytics',
-      route: '/progreso'
-    }
-
-  ]
-
+      route: '/progreso',
+    },
+  ],
 };

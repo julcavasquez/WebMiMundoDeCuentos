@@ -1,0 +1,324 @@
+<div class="container-fluid py-4">
+  <!-- ===================== ENCABEZADO ===================== -->
+  <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+    <div class="d-flex align-items-start">
+      <div class="page-icon me-3">
+        <i class="bi bi-grid-3x3-gap-fill"></i>
+      </div>
+
+      <div>
+        <h2 class="fw-bold mb-0">Gestionar Secciones</h2>
+
+        <h3 class="text-purple fw-semibold mb-2">Año Lectivo {{ anioLectivoActivo?.anio }}</h3>
+
+        <p class="text-muted mb-0">Cree, edite y administre las secciones de este año lectivo.</p>
+      </div>
+    </div>
+    <!-- BOTÓN NUEVA SECCIÓN -->
+
+    <div class="col-lg-3 d-flex justify-content-lg-end align-items-center">
+      <button
+        class="btn btn-purple btn-lg px-4 rounded-3"
+        data-bs-toggle="modal"
+        data-bs-target="#modalSeccion"
+        (click)="nuevaSeccion()"
+      >
+        <i class="bi bi-plus-lg me-2"></i>
+        Nueva Sección
+      </button>
+    </div>
+  </div>
+
+  <!-- ===================== CONTENEDOR PRINCIPAL ===================== -->
+
+  <div class="row">
+    <!-- AQUÍ VA LA TABLA -->
+
+    <div class="col-12">
+      <div class="card shadow-sm border-0">
+        <!-- Header -->
+
+        <div class="card-header bg-white border-bottom py-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h5 class="fw-bold mb-1">Secciones del Año Lectivo {{ anioLectivoActivo?.anio }}</h5>
+
+              <small class="text-muted"> Total: {{ listaSecciones().length }} secciones </small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla -->
+
+        <div class="table-responsive">
+          <table class="table align-middle table-hover mb-0">
+            <thead>
+              <tr>
+                <th width="60">#</th>
+
+                <th width="90">Grado</th>
+
+                <th width="90">Sección</th>
+
+                <th style="text-align: center">Nombre Completo</th>
+
+                <th>Docente Asignado</th>
+
+                <th width="90" class="text-center">Alumnos</th>
+
+                <th width="120" class="text-center">Estado</th>
+
+                <th width="120" class="text-center">Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (seccion of listaSecciones(); track seccion.id_seccion) {
+                <tr>
+                  <!-- Número -->
+
+                  <td>
+                    <strong>
+                      {{ $index + 1 }}
+                    </strong>
+                  </td>
+
+                  <!-- Grado -->
+
+                  <td>{{ seccion.grado }}°</td>
+
+                  <!-- Letra -->
+
+                  <td>
+                    <span class="badge-seccion">
+                      {{ seccion.seccion }}
+                    </span>
+                  </td>
+
+                  <!-- Nombre -->
+
+                  <td style="text-align: center">
+                    {{ seccion.grado + `°  ` + `  "` + seccion.seccion + `"` }}
+                  </td>
+
+                  <!-- Docente -->
+
+                  <td>
+                    <!-- @if (seccion.docente) {
+                      <span>
+                        {{ seccion.docente }}
+                      </span>
+                    } @else {
+                      <span class="text-danger fw-semibold"> Sin asignar </span>
+                    } -->
+                    sin asignar
+                  </td>
+
+                  <!-- Cantidad alumnos -->
+
+                  <td class="text-center">totalAlumnos</td>
+
+                  <!-- Estado -->
+
+                  <td class="text-center">
+                    @if (seccion.estado === 'ACTIVA') {
+                      <span class="badge bg-success-subtle text-success"> Activa </span>
+                    } @else {
+                      <span class="badge bg-warning-subtle text-warning"> INACTIVA </span>
+                    }
+                  </td>
+
+                  <!-- Acciones -->
+
+                  <td>
+                    <div class="d-flex justify-content-center gap-2">
+                      <!-- Gestionar -->
+
+                      <button
+                        class="btn btn-outline-primary btn-sm"
+                        matTooltip="Editar"
+                        matTooltipPosition="above"
+                        style="margin-right: 5px"
+                        [routerLink]="['/panel/secciones/gestionar-seccion', seccion.id_seccion]"
+                      >
+                        <i class="bi bi-gear-fill"></i>
+                      </button>
+
+                      <!-- Eliminar -->
+
+                      <!-- @if (seccion.totalAlumnos == 0 && !seccion.docente) {
+                        <button class="btn btn-outline-danger btn-sm rounded-3" title="Eliminar">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      } -->
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="8" class="text-center py-5">
+                    <i class="bi bi-grid-3x3-gap display-4 text-secondary"> </i>
+
+                    <h5 class="mt-3">No existen secciones registradas</h5>
+
+                    <p class="text-muted">
+                      Presione el botón
+
+                      <strong> Nueva Sección </strong>
+
+                      para comenzar.
+                    </p>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Footer -->
+
+        <div class="card-footer bg-white">
+          <small class="text-muted">
+            Mostrando
+
+            {{ listaSecciones().length }}
+
+            de
+
+            {{ listaSecciones().length }}
+
+            secciones.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL LATERAL (opcional) -->
+
+    <div class="col-lg-4">
+      <!-- Si deseas mostrar estadísticas aquí -->
+    </div>
+  </div>
+  <!-- =======================================================
+ MODAL REGISTRAR / EDITAR SECCIÓN
+======================================================== -->
+
+  <div
+    class="modal fade"
+    tabindex="-1"
+    [class.show]="mostrarModal"
+    [style.display]="mostrarModal ? 'block' : 'none'"
+    aria-labelledby="modalSeccionLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg">
+        <!-- Header -->
+
+        <div class="modal-header modal-purple">
+          <div>
+            <h4 class="modal-title fw-bold text-white" id="modalSeccionLabel">
+              <i class="bi bi-grid-3x3-gap-fill me-2"></i>
+
+              {{ editando ? 'Editar Sección' : 'Registrar Nueva Sección' }}
+            </h4>
+
+            <small class="text-white-50"> Complete la información de la sección. </small>
+          </div>
+
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            (click)="cerrarModal()"
+          ></button>
+        </div>
+
+        <!-- Body -->
+
+        <form [formGroup]="form" (ngSubmit)="guardarSeccion()">
+          <div class="modal-body p-4">
+            <div class="row g-4">
+              <!-- Año Lectivo -->
+
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">
+                  Año Lectivo <span class="text-danger">*</span></label
+                >
+
+                <input type="text" class="form-control" formControlName="anio" readonly />
+              </div>
+
+              <!-- Grado -->
+
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">
+                  Grado <span class="text-danger">*</span></label
+                >
+
+                <select class="form-select" formControlName="grado">
+                  <option value="3">3° Primaria</option>
+                </select>
+              </div>
+
+              <!-- Sección -->
+
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">
+                  Sección <span class="text-danger">*</span></label
+                >
+
+                <select class="form-select" formControlName="seccion">
+                  <option value="">Seleccione</option>
+                  @for (letra of seccionesDisponibles; track letra) {
+                    <option [value]="letra">
+                      {{ letra }}
+                    </option>
+                  }
+                </select>
+              </div>
+
+              <!-- Nombre -->
+
+              <div class="col-6">
+                <label class="form-label fw-semibold">
+                  Nombre de la Sección <span class="text-danger">*</span></label
+                >
+
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="nombre"
+                  placeholder="Ej. Tercer Grado A"
+                  readonly
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+
+          <div class="modal-footer border-0 px-4 pb-4">
+            <button
+              type="button"
+              class="btn btn-light px-4"
+              data-bs-dismiss="modal"
+              (click)="cerrarModal()"
+            >
+              Cancelar
+            </button>
+
+            <button type="submit" class="btn btn-purple px-4" [disabled]="form.invalid">
+              <i class="bi" [class.bi-floppy]="!editando" [class.bi-pencil-square]="editando"> </i>
+
+              {{ editando ? 'Actualizar' : 'Guardar' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+@if (mostrarModal) {
+  <div class="modal-backdrop fade show"></div>
+}

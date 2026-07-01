@@ -26,8 +26,8 @@
           <div class="input-container">
             <mat-icon>person_outline</mat-icon>
 
-            <select formControlName="roleId" class="form-control">
-              <option value="">Selecciona un rol</option>
+            <select formControlName="roleId" class="form-control" (change)="onRoleChange()">
+              <option value="" disabled>Selecciona un rol</option>
               @for (role of roles(); track role.id) {
                 <option [ngValue]="role.id">
                   {{ role.nombre }}
@@ -35,28 +35,31 @@
               }
             </select>
           </div>
+          @if (f['roleId'].invalid && f['roleId'].touched) {
+            <small class="error-message"> El correo es obligatorio </small>
+          }
         </div>
         <div class="form-group">
           <label>Nombres <span>*</span></label>
-
           <div class="input-container">
             <mat-icon>person_outline</mat-icon>
-
             <input
               type="text"
               formControlName="nombres"
               placeholder="Ingresa los nombres"
               class="form-control"
+              [class.is-invalid]="f['nombres'].invalid && f['nombres'].touched"
             />
           </div>
+          @if (f['nombres'].invalid && f['nombres'].touched) {
+            <small class="error-message"> El nombre es obligatorio </small>
+          }
         </div>
 
         <div class="form-group">
           <label>Apellidos <span>*</span></label>
-
           <div class="input-container">
             <mat-icon>person_outline</mat-icon>
-
             <input
               type="text"
               formControlName="apellidos"
@@ -64,6 +67,9 @@
               class="form-control"
             />
           </div>
+          @if (f['apellidos'].invalid && f['apellidos'].touched) {
+            <small class="error-message"> Los apellidos son obligatorios </small>
+          }
         </div>
 
         @if (isStudent) {
@@ -86,6 +92,9 @@
                 </mat-slide-toggle>
               </div>
             </div>
+            @if (f['nom_usuario'].invalid && f['nom_usuario'].touched) {
+              <small class="error-message"> El nombre de usuario es obligatorio </small>
+            }
           </div>
         }
 
@@ -97,8 +106,12 @@
               <div class="input-container">
                 <mat-icon>person_outline</mat-icon>
 
-                <select formControlName="tipoDocId" class="form-control">
-                  <option value="">Selecciona un Tipo Doc.</option>
+                <select
+                  formControlName="tipoDocId"
+                  class="form-control"
+                  (change)="onTipoDocumentoChange()"
+                >
+                  <option value="" disabled>Selecciona un Tipo Doc.</option>
                   @for (tipodoc of tipos_doc(); track tipodoc.id_tdi) {
                     <option [ngValue]="tipodoc.id_tdi">
                       {{ tipodoc.nombre }}
@@ -106,6 +119,9 @@
                   }
                 </select>
               </div>
+              @if (f['tipoDocId'].invalid && f['tipoDocId'].touched) {
+                <small class="error-message"> El Tipo de Doc. es obligatorio </small>
+              }
             </div>
             <div class="form-group">
               <label>Número Doc.*</label>
@@ -113,11 +129,35 @@
                 <mat-icon>person_outline</mat-icon>
                 <input
                   type="text"
-                  formControlName="nom_usuario"
+                  formControlName="num_doc"
                   placeholder="Ej: 12345678"
                   class="form-control"
+                  [maxlength]="documentoMaxLength"
+                  (keypress)="soloNumeros($event)"
+                  (input)="limpiarDocumento()"
                 />
               </div>
+              @if (f['num_doc'].touched && f['num_doc'].errors?.['required']) {
+                <small class="error-message"> El documento es obligatorio </small>
+              }
+
+              @if (f['num_doc'].touched && f['num_doc'].errors?.['pattern']) {
+                <small class="error-message">
+                  @switch (nom_tipo) {
+                    @case ('DNI') {
+                      El DNI debe contener exactamente 8 números.
+                    }
+
+                    @case ('CE') {
+                      El carnet de extranjería debe contener entre 9 y 12 caracteres.
+                    }
+
+                    @case ('PASAPORTE') {
+                      El pasaporte debe contener entre 6 y 12 caracteres.
+                    }
+                  }
+                </small>
+              }
             </div>
           </div>
         }
@@ -152,11 +192,13 @@
                   </div>
                 }
               </div>
+              @if (f['avatarId'].invalid && f['avatarId'].touched) {
+                <small class="error-message"> El AVATAR es obligatorio </small>
+              }
             </div>
 
             <div class="form-group">
               <label>PIN de 6 dígitos <span>*</span></label>
-
               <div class="pin-container">
                 <input
                   #firstInput
@@ -165,7 +207,7 @@
                   class="pin-input"
                   inputmode="numeric"
                   pattern="[0-9]*"
-                  (input)="handlePinInput($event, secondInput)"
+                  (input)="handlePinInput($event, secondInput); validardigitosPIN()"
                   (keypress)="onNumberInput($event)"
                 />
 
@@ -174,7 +216,7 @@
                   type="text"
                   maxlength="1"
                   class="pin-input"
-                  (input)="handlePinInput($event, thirdInput)"
+                  (input)="handlePinInput($event, thirdInput); validardigitosPIN()"
                   (keydown)="movePrevious($event, firstInput)"
                   (keypress)="onNumberInput($event)"
                 />
@@ -184,7 +226,7 @@
                   type="text"
                   maxlength="1"
                   class="pin-input"
-                  (input)="handlePinInput($event, fourthInput)"
+                  (input)="handlePinInput($event, fourthInput); validardigitosPIN()"
                   (keydown)="movePrevious($event, secondInput)"
                   (keypress)="onNumberInput($event)"
                 />
@@ -194,7 +236,7 @@
                   type="text"
                   maxlength="1"
                   class="pin-input"
-                  (input)="handlePinInput($event, fifthInput)"
+                  (input)="handlePinInput($event, fifthInput); validardigitosPIN()"
                   (keydown)="movePrevious($event, thirdInput)"
                   (keypress)="onNumberInput($event)"
                 />
@@ -204,7 +246,7 @@
                   type="text"
                   maxlength="1"
                   class="pin-input"
-                  (input)="handlePinInput($event, sixthInput)"
+                  (input)="handlePinInput($event, sixthInput); validardigitosPIN()"
                   (keydown)="movePrevious($event, fourthInput)"
                   (keypress)="onNumberInput($event)"
                 />
@@ -214,13 +256,15 @@
                   type="text"
                   maxlength="1"
                   class="pin-input"
-                  (input)="handlePinInput($event, confirmFirstInput)"
+                  (input)="handlePinInput($event, confirmFirstInput); validardigitosPIN()"
                   (keydown)="movePrevious($event, fifthInput)"
                   (keypress)="onNumberInput($event)"
                 />
               </div>
-
               <small> El PIN debe tener exactamente 6 dígitos </small>
+              @if (f['pin'].touched && (f['pin'].value ?? '').length !== 6) {
+                <small class="error-message"> Debe ingresar los 6 dígitos del PIN </small>
+              }
             </div>
 
             <div class="form-group">
@@ -234,7 +278,7 @@
                   class="pin-input"
                   inputmode="numeric"
                   pattern="[0-9]*"
-                  (input)="handlePinInput($event, confirmSecondInput)"
+                  (input)="handlePinInput($event, confirmSecondInput); validardigitosConfiPIN()"
                   (keypress)="onNumberInput($event)"
                 />
 
@@ -243,7 +287,7 @@
                   type="text"
                   maxlength="1"
                   class="pin-input"
-                  (input)="handlePinInput($event, confirmThirdInput)"
+                  (input)="handlePinInput($event, confirmThirdInput); validardigitosConfiPIN()"
                   (keydown)="movePrevious($event, confirmFirstInput)"
                   (keypress)="onNumberInput($event)"
                 />
@@ -253,7 +297,7 @@
                   type="text"
                   maxlength="1"
                   class="pin-input"
-                  (input)="handlePinInput($event, confirmFourthInput)"
+                  (input)="handlePinInput($event, confirmFourthInput); validardigitosConfiPIN()"
                   (keydown)="movePrevious($event, confirmSecondInput)"
                   (keypress)="onNumberInput($event)"
                 />
@@ -263,7 +307,7 @@
                   type="text"
                   maxlength="1"
                   class="pin-input"
-                  (input)="handlePinInput($event, confirmFifthInput)"
+                  (input)="handlePinInput($event, confirmFifthInput); validardigitosConfiPIN()"
                   (keydown)="movePrevious($event, confirmThirdInput)"
                   (keypress)="onNumberInput($event)"
                 />
@@ -273,7 +317,7 @@
                   type="text"
                   maxlength="1"
                   class="pin-input"
-                  (input)="handlePinInput($event, confirmSixthInput)"
+                  (input)="handlePinInput($event, confirmSixthInput); validardigitosConfiPIN()"
                   (keydown)="movePrevious($event, confirmFourthInput)"
                   (keypress)="onNumberInput($event)"
                 />
@@ -283,16 +327,22 @@
                   type="text"
                   maxlength="1"
                   class="pin-input"
-                  (input)="handleLastPinInput($event, btnguardarusu)"
+                  (input)="handleLastPinInput($event, btnguardarusu); validardigitosConfiPIN()"
                   (keydown)="movePrevious($event, confirmFifthInput)"
                   (keypress)="onNumberInput($event)"
                 />
               </div>
 
               <small> El PIN debe tener exactamente 6 dígitos </small>
-
-              @if (pinError) {
-                <small class="error-message"> Los PIN no coinciden </small>
+              @if (f['confirpin'].touched && (f['confirpin'].value ?? '').length !== 6) {
+                <small class="error-message"> Debe ingresar los 6 dígitos del PIN </small>
+              }
+              @if (showPinMessage) {
+                @if (pinError) {
+                  <small class="error-message"> ❌ Los PIN no coinciden </small>
+                } @else {
+                  <small class="success-message"> ✅ Los PIN coinciden </small>
+                }
               }
             </div>
           </div>
@@ -310,17 +360,22 @@
           <div class="grid-1">
             <div class="form-group">
               <label>Correo Electrónico *</label>
-
               <div class="input-container">
                 <mat-icon>mail_outline</mat-icon>
-
                 <input
                   type="email"
-                  formControlName="email"
+                  formControlName="correo"
                   placeholder="Ej: usuario@correo.com"
                   class="form-control"
+                  (input)="validateEmails()"
                 />
               </div>
+              @if (f['correo'].errors?.['required'] && f['correo'].touched) {
+                <small class="error-message">El correo es obligatorio.</small>
+              }
+              @if (f['correo'].errors?.['email']) {
+                <small class="error-message">El formato del correo no es válido.</small>
+              }
             </div>
 
             <div class="form-group">
@@ -331,11 +386,24 @@
 
                 <input
                   type="email"
-                  formControlName="email"
+                  formControlName="confircorreo"
                   placeholder="Ej: usuario@correo.com"
                   class="form-control"
+                  (input)="validateEmails()"
                 />
               </div>
+              @if (f['confircorreo'].errors?.['required'] && f['correo'].touched) {
+                <small class="error-message">El correo es obligatorio.</small>
+              }
+              @if (f['confircorreo'].errors?.['email']) {
+                <small class="error-message">El formato del correo no es válido.</small>
+              }
+              @if (emailError) {
+                <small class="error-message"> Los correos electrónicos no coinciden </small>
+              }
+              @if (emailsMatch) {
+                <small class="success-message"> ✓ Los correos sí coinciden </small>
+              }
             </div>
           </div>
           <div class="grid-1">

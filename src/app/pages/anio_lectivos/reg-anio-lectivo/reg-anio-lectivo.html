@@ -1,0 +1,164 @@
+<div class="container-fluid py-4 bg-light">
+  <!-- Encabezado -->
+
+  <div class="d-flex align-items-center mb-4">
+    <div
+      class="bg-white rounded-4 shadow-sm d-flex align-items-center justify-content-center me-3"
+      style="width: 80px; height: 80px"
+    >
+      <i class="bi bi-calendar-event text-primary fs-1"></i>
+    </div>
+
+    <div>
+      <h1 class="fw-bold mb-1">Aperturar Año Lectivo</h1>
+      <p class="text-secondary mb-0">Complete la información para abrir un nuevo año lectivo.</p>
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <!-- Información General -->
+
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+      <div class="card-body p-4">
+        <div class="d-flex align-items-center mb-4">
+          <div class="bg-primary bg-opacity-10 rounded-3 p-2 me-3">
+            <i class="bi bi-calendar-week text-primary fs-4"></i>
+          </div>
+
+          <div>
+            <h4 class="fw-bold mb-0">Información General</h4>
+
+            <small class="text-secondary"> Datos principales del año lectivo </small>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <label class="form-label fw-semibold">
+              Año Lectivo <span class="text-danger">*</span>
+            </label>
+
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                maxlength="4"
+                formControlName="anio"
+                placeholder="Ej: 2026"
+                (input)="validarAnio($event)"
+              />
+              <span class="input-group-text">
+                <i class="bi bi-calendar"></i>
+              </span>
+            </div>
+            <small class="text-secondary"> Ingrese el año (ej. 2025) </small>
+          </div>
+
+          <div class="col-md-6 mb-4">
+            <label class="form-label fw-semibold">
+              Nombre del Año Lectivo
+              <span class="text-danger">*</span>
+            </label>
+
+            <input
+              type="text"
+              class="form-control"
+              formControlName="nombre"
+              placeholder="Ej: Año Lectivo 2025"
+            />
+
+            <small class="text-secondary"> Nombre descriptivo del año lectivo </small>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">
+              Fecha de Inicio
+              <span class="text-danger">*</span>
+            </label>
+
+            <div class="input-group">
+              <input type="date" formControlName="fecha_inicio" class="form-control" />
+
+              <span class="input-group-text">
+                <i class="bi bi-calendar"></i>
+              </span>
+            </div>
+
+            <small class="text-secondary"> Fecha en que inicia el año lectivo </small>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">
+              Fecha de Fin
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <input type="date" formControlName="fecha_fin" class="form-control" />
+              <span class="input-group-text">
+                <i class="bi bi-calendar"></i>
+              </span>
+            </div>
+
+            <small class="text-secondary"> Fecha en que finaliza el año lectivo </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Observaciones -->
+
+    <div class="card border-0 shadow-sm rounded-4">
+      <div class="card-body p-4">
+        <div class="d-flex align-items-center mb-4">
+          <div class="bg-primary bg-opacity-10 rounded-3 p-2 me-3">
+            <i class="bi bi-chat-square-text text-primary fs-4"></i>
+          </div>
+          <div>
+            <h4 class="fw-bold mb-0">Observaciones (Opcional)</h4>
+            <small class="text-secondary"> Información adicional relevante </small>
+          </div>
+        </div>
+        <textarea
+          rows="4"
+          maxlength="500"
+          class="form-control"
+          formControlName="observaciones"
+          placeholder="Ingrese observaciones adicionales (opcional)"
+        ></textarea>
+
+        <div class="d-flex justify-content-between mt-2">
+          <small class="text-secondary">
+            Notas o comentarios adicionales sobre el año lectivo
+          </small>
+
+          <small class="text-secondary"> 0/500 </small>
+        </div>
+
+        <!-- Aviso -->
+
+        <div class="mt-4 p-3 rounded-4" style="background: #f4edff">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-lightbulb text-primary fs-4 me-3"></i>
+
+            <div>
+              <strong>Importante</strong>
+
+              <div class="text-secondary">
+                Al aperturar un nuevo año lectivo, se habilitarán las funcionalidades académicas
+                para su uso en el sistema.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones -->
+
+    <div class="d-flex justify-content-end gap-3 mt-4">
+      <button type="button" class="btn btn-outline-secondary px-4">Cancelar</button>
+
+      <button type="submit" class="btn btn-primary px-5">Aperturar Año Lectivo</button>
+    </div>
+  </form>
+</div>

@@ -363,3 +363,12 @@ label span {
 .username-container input {
   flex: 1;
 }
+
+.success-message {
+  color: #16a34a;
+  font-size: 13px;
+}
+
+.is-invalid {
+  border: 1px solid #dc2626;
+}

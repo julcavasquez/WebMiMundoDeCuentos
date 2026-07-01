@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -17,6 +17,23 @@ import Swal from 'sweetalert2';
   styleUrl: './login.scss',
 })
 export class Login implements OnInit {
+  @ViewChild('firstInput')
+  firstInput!: ElementRef<HTMLInputElement>;
+
+  @ViewChild('secondInput')
+  secondInput!: ElementRef<HTMLInputElement>;
+
+  @ViewChild('thirdInput')
+  thirdInput!: ElementRef<HTMLInputElement>;
+
+  @ViewChild('fourthInput')
+  fourthInput!: ElementRef<HTMLInputElement>;
+
+  @ViewChild('fifthInput')
+  fifthInput!: ElementRef<HTMLInputElement>;
+
+  @ViewChild('sixthInput')
+  sixthInput!: ElementRef<HTMLInputElement>;
   submitted = false;
   loginForm!: FormGroup;
   private activatedRoute = inject(ActivatedRoute);
@@ -31,17 +48,17 @@ export class Login implements OnInit {
 
   ngOnInit(): void {
     const roleId = Number(this.activatedRoute.snapshot.paramMap.get('roleId'));
-
+    this.loginForm = this.fb.group({
+      roleId: [roleId],
+    });
+    console.log(this.loginForm.getRawValue());
     this.roleService.getRoles().subscribe({
       next: (response) => {
         this.roles.set(response);
-
         const role = response.find((r) => r.id === roleId);
-
         if (role) {
           this.selectedRole.set(role);
-
-          console.log(this.selectedRole()?.tipo);
+          console.log(this.selectedRole()?.id);
           this.buildForm();
         }
       },
@@ -52,15 +69,16 @@ export class Login implements OnInit {
     console.log(this.selectedRole()?.tipo);
     if (this.selectedRole()?.tipo === 'GENERAL') {
       this.loginForm = this.fb.group({
+        roleId: [this.selectedRole()?.id],
         correo: ['', [Validators.required, Validators.email]],
-
-        password: ['', [Validators.required, Validators.minLength(6)]],
+        password: ['', [Validators.required]],
       });
     } else {
       this.loginForm = this.fb.group({
-        username: ['', Validators.required],
-
-        pin: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+        roleId: [this.selectedRole()?.id],
+        nom_usu: ['', Validators.required],
+        avatarId: ['', Validators.required],
+        pin: ['', [Validators.required, Validators.minLength(6)]],
       });
     }
   }
@@ -74,7 +92,7 @@ export class Login implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-
+    console.log(this.loginForm.getRawValue());
     this.usuariosService.login(this.loginForm.getRawValue()).subscribe({
       next: (response: any) => {
         Swal.fire({
@@ -123,6 +141,9 @@ export class Login implements OnInit {
 
   selectAvatar(avatar: string): void {
     this.selectedAvatar = avatar;
+    this.loginForm.patchValue({
+      avatarId: this.selectedAvatar,
+    });
   }
 
   handlePinInput(event: Event, nextInput?: HTMLInputElement): void {
@@ -182,5 +203,27 @@ export class Login implements OnInit {
     if (!/^[0-9]$/.test(event.key)) {
       event.preventDefault();
     }
+  }
+
+  getPin(): string {
+    return [
+      this.firstInput?.nativeElement?.value ?? '',
+
+      this.secondInput?.nativeElement?.value ?? '',
+
+      this.thirdInput?.nativeElement?.value ?? '',
+
+      this.fourthInput?.nativeElement?.value ?? '',
+
+      this.fifthInput?.nativeElement?.value ?? '',
+
+      this.sixthInput?.nativeElement?.value ?? '',
+    ].join('');
+  }
+  validardigitosPIN(): void {
+    const pin = this.getPin();
+    this.loginForm.controls['pin'].setValue(pin, {
+      emitEvent: false,
+    });
   }
 }

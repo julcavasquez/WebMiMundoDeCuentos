@@ -1,8 +1,6 @@
 <div class="admin-container" [class.sidebar-collapsed]="isSidebarCollapsed">
-
   <!-- SIDEBAR -->
   <aside class="sidebar">
-
     <div class="sidebar-header">
       <div class="brand">
         <span class="logo">📖</span>
@@ -11,25 +9,17 @@
     </div>
 
     <nav class="menu">
-      @for(
-          item of menuItems;
-          track item.route
-        ){
-          <a
-            [routerLink]="item.route"
-            class="menu-item"
-          >
+      @for (item of menuItems; track item.route) {
+        <a [routerLink]="item.route" class="menu-item">
+          <mat-icon class="icon">
+            {{ item.icon }}
+          </mat-icon>
 
-            <mat-icon class="icon">
-              {{ item.icon }}
-            </mat-icon>
-
-            <span class="text">
-              {{ item.label }}
-            </span>
-
-          </a>
-  }
+          <span class="text">
+            {{ item.label }}
+          </span>
+        </a>
+      }
     </nav>
 
     <div class="sidebar-footer">
@@ -38,38 +28,35 @@
         <span class="text">Cerrar sesión</span>
       </button>
     </div>
-
   </aside>
 
   <!-- MAIN -->
   <div class="main-content">
-
     <!-- TOPBAR -->
     <header class="topbar">
-
       <button class="menu-toggle" (click)="toggleSidebar()">☰</button>
 
-      <div class="search-box">
-        <input type="text" placeholder="Buscar cuentos, autores, categorías..." />
-        <span class="search-icon">🔍</span>
-      </div>
-
       <div class="topbar-actions">
+        <!-- Año Lectivo -->
+        <div class="academic-year">
+          <span class="label"> Año lectivo </span>
 
-        <button class="icon-btn">
-          🔔
-          <span class="badge">3</span>
-        </button>
-
-        <div class="profile">
-          <div class="avatar">👤</div>
-
-          <div class="profile-info">
-            <strong></strong>
-            <small>usuario@cuentos.com</small>
-          </div>
+          @if (anioActivo?.anio) {
+            <span class="anio_lectivo">{{ anioActivo?.anio }} </span>
+          } @else {
+            <span class="text-danger anio_lectivo">Sin iniciar </span>
+          }
         </div>
 
+        <!-- Perfil -->
+        <div class="profile">
+          <div class="avatar">👨‍🏫</div>
+
+          <div class="profile-info">
+            <strong> Juan Pérez </strong>
+            <small> Docente </small>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -77,6 +64,5 @@
     <section class="content">
       <router-outlet></router-outlet>
     </section>
-
   </div>
 </div>

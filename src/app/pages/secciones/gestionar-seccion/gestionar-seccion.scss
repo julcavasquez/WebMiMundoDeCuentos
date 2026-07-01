@@ -1,0 +1,437 @@
+/*=================================================
+TÍTULO
+==================================================*/
+
+.titulo {
+  color: #2d3748;
+
+  font-weight: 700;
+}
+
+/*=================================================
+CARD PRINCIPAL
+==================================================*/
+
+.card-principal {
+  border-radius: 18px;
+
+  overflow: hidden;
+}
+
+/*=================================================
+CÍRCULO DE LA SECCIÓN
+==================================================*/
+
+.circle-section {
+  width: 120px;
+
+  height: 120px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #7b4dff, #5b21b6);
+
+  color: white;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 34px;
+
+  font-weight: 700;
+
+  margin: auto;
+
+  box-shadow: 0 12px 35px rgba(123, 77, 255, 0.3);
+}
+
+/*=================================================
+INFORMACIÓN
+==================================================*/
+
+.info-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+}
+
+.info-item i {
+  width: 48px;
+
+  height: 48px;
+
+  border-radius: 12px;
+
+  background: #ede9fe;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  color: #6f42c1;
+
+  font-size: 22px;
+}
+
+.info-item small {
+  color: #6c757d;
+}
+
+.info-item h6 {
+  margin: 0;
+
+  font-weight: 700;
+}
+
+/*=================================================
+DOCENTE
+==================================================*/
+
+.section-title {
+  font-weight: 700;
+
+  color: #374151;
+}
+
+.teacher-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+
+  padding: 20px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 18px;
+
+  background: white;
+}
+
+.teacher-photo {
+  width: 70px;
+
+  height: 70px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+}
+
+.teacher-info h5 {
+  margin: 0;
+
+  font-size: 18px;
+
+  font-weight: 700;
+}
+
+.teacher-info p {
+  margin-top: 4px;
+
+  color: #6b7280;
+}
+
+.teacher-empty {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 25px;
+
+  border-radius: 18px;
+
+  border: 2px dashed #d1d5db;
+}
+
+/*=================================================
+ELIMINAR
+==================================================*/
+
+.delete-card {
+  border-radius: 18px;
+
+  border: 1px solid #fee2e2;
+
+  background: #fff5f5;
+
+  padding: 25px;
+}
+
+/*=================================================
+TABLA
+==================================================*/
+
+.table thead {
+  background: #f8fafc;
+}
+
+.table thead th {
+  border: none;
+
+  font-size: 14px;
+
+  color: #64748b;
+
+  font-weight: 700;
+
+  padding: 18px;
+}
+
+.table tbody td {
+  padding: 18px;
+
+  vertical-align: middle;
+}
+
+.table-hover tbody tr {
+  transition: 0.25s;
+}
+
+.table-hover tbody tr:hover {
+  background: #faf7ff;
+}
+
+/*=================================================
+AVATAR ALUMNOS
+==================================================*/
+
+.avatar-student {
+  width: 48px;
+
+  height: 48px;
+
+  border-radius: 50%;
+
+  background: #ede9fe;
+
+  color: #6f42c1;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-weight: 700;
+
+  font-size: 18px;
+}
+
+/*=================================================
+EMPTY
+==================================================*/
+
+.empty-state {
+  text-align: center;
+}
+
+/*=================================================
+BOTONES
+==================================================*/
+
+.btn-primary {
+  background: #6f42c1;
+
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #5b21b6;
+}
+
+.btn-outline-primary {
+  border-color: #6f42c1;
+
+  color: #6f42c1;
+}
+
+.btn-outline-primary:hover {
+  background: #6f42c1;
+
+  color: white;
+}
+
+.btn-danger {
+  background: #dc3545;
+}
+
+.btn-sm.rounded-circle {
+  width: 38px;
+
+  height: 38px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 0;
+}
+
+/*=================================================
+BADGE
+==================================================*/
+
+.badge {
+  padding: 8px 14px;
+
+  font-size: 13px;
+}
+
+/*=================================================
+CARD
+==================================================*/
+
+.card {
+  border-radius: 18px;
+}
+
+/*=================================================
+RESPONSIVE
+==================================================*/
+
+@media (max-width: 992px) {
+  .teacher-card {
+    flex-direction: column;
+
+    text-align: center;
+  }
+
+  .teacher-empty {
+    flex-direction: column;
+
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .circle-section {
+    width: 90px;
+
+    height: 90px;
+
+    font-size: 28px;
+
+    margin-bottom: 20px;
+  }
+
+  .info-item {
+    margin-bottom: 20px;
+  }
+}
+
+// MODAL ASIGNAR TARJETA
+.teacher-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 18px;
+
+  border: 1px solid #dee2e6;
+
+  border-radius: 15px;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.teacher-item:hover {
+  border-color: #7b4dff;
+
+  background: #faf7ff;
+}
+
+.teacher-avatar {
+  width: 55px;
+
+  height: 55px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+}
+
+.teacher-item.selected {
+  border: 2px solid #7b4dff;
+
+  background: #f3ecff;
+}
+
+//MODAL ASISGNAR ALUMNOS
+.student-list {
+  max-height: 520px;
+
+  overflow: auto;
+}
+
+.student-item {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 15px;
+
+  border: 1px solid #dee2e6;
+
+  border-radius: 12px;
+
+  margin-bottom: 12px;
+
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+.student-item:hover {
+  background: #faf7ff;
+
+  border-color: #7b4dff;
+}
+
+.student-item.selected {
+  background: #f3ecff;
+
+  border: 2px solid #7b4dff;
+}
+
+.selected-panel {
+  border-left: 1px solid #ececec;
+
+  padding-left: 20px;
+
+  min-height: 500px;
+}
+
+.selected-item {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  background: #f8f9fa;
+
+  margin-bottom: 10px;
+}

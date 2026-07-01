@@ -1,26 +1,12 @@
 <div class="login-container">
-
   <!-- CARD -->
   <div class="login-card">
-
     <!-- BUTTON -->
-    <button
-      class="back-button"
-      (click)="goBack()"
-    >
-      ← Cambiar rol
-    </button>
+    <button class="back-button" (click)="goBack()">← Cambiar rol</button>
 
     <!-- AVATAR -->
-    <div
-      class="avatar-circle"
-      [style.background]="selectedRole()?.color"
-    >
-
-      <img
-        [src]="'/assets/images/roles/'+selectedRole()?.icon" [alt]="selectedRole()?.nombre"
-      >
-
+    <div class="avatar-circle" [style.background]="selectedRole()?.color">
+      <img [src]="'/assets/images/roles/' + selectedRole()?.icon" [alt]="selectedRole()?.nombre" />
     </div>
 
     <!-- TITLE -->
@@ -29,247 +15,191 @@
     </h2>
 
     <!-- SUBTITLE -->
-    <p>
-      Ingresa tus datos para continuar
-    </p>
+    <p>Ingresa tus datos para continuar</p>
 
     <!-- FORM -->
-     @if (loginForm) {
- <form
-      [formGroup]="loginForm"
-      (ngSubmit)="onSubmit()"
-    >
+    @if (loginForm) {
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- general -->
+        <ng-container *ngIf="selectedRole()?.tipo === 'GENERAL'">
+          <div class="form-group">
+            <label>Correo electrónico</label>
 
-      <!-- general -->
-      <ng-container *ngIf="selectedRole()?.tipo === 'GENERAL'">
+            <input
+              type="email"
+              id="correo"
+              formControlName="correo"
+              [ngClass]="{ 'is-invalid': submitted && f['correo'].errors }"
+              placeholder="ejemplo@correo.com"
+            />
 
-        <div class="form-group">
+            @if (submitted) {
+              @if (f['correo'].errors?.['required']) {
+                <div class="error-message">El correo es obligatorio</div>
+              }
 
-          <label>Correo electrónico</label>
+              @if (f['correo'].errors?.['email']) {
+                <div class="error-message">Ingrese un correo válido</div>
+              }
+            }
+          </div>
 
-          <input
-            type="email"
-            id="correo"
-            formControlName="correo"
-            [ngClass]="{'is-invalid': submitted && f['correo'].errors}" placeholder="ejemplo@correo.com"
-          >
-     
-        @if (submitted) {
+          <div class="form-group">
+            <label>Contraseña</label>
 
-  @if (f['correo'].errors?.['required']) {
+            <input
+              type="password"
+              formControlName="password"
+              [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+              placeholder="********"
+            />
 
-    <div class="error-message">
-      El correo es obligatorio
-    </div>
+            @if (submitted) {
+              @if (f['password'].errors?.['required']) {
+                <div class="error-message">La contraseña es obligatoria</div>
+              }
 
-  }
+              @if (f['password'].errors?.['minlength']) {
+                <div class="error-message">La contraseña debe tener al menos 6 caracteres</div>
+              }
+            }
+          </div>
+        </ng-container>
 
-  @if (f['correo'].errors?.['email']) {
+        <!-- alumno -->
+        <ng-container *ngIf="selectedRole()?.tipo === 'ALUMNO'">
+          <!-- AVATARES -->
+          <div class="avatars-section">
+            <label class="avatar-label"> Selecciona tu avatar </label>
 
-    <div class="error-message">
-      Ingrese un correo válido
-    </div>
+            <div class="avatars-grid">
+              <div
+                class="avatar-option"
+                *ngFor="let avatar of avatars"
+                [class.selected]="selectedAvatar === avatar"
+                (click)="selectAvatar(avatar)"
+              >
+                <img [src]="avatar" alt="Avatar" />
+              </div>
+            </div>
+            @if (submitted) {
+              @if (f['avatarId'].errors?.['required']) {
+                <div class="error-message">Debe seleccionar su Avatar</div>
+              }
+            }
+          </div>
 
-  }
+          <!-- USERNAME -->
+          <div class="form-group">
+            <label>Usuario</label>
+            <input type="text" formControlName="nom_usu" placeholder="Escribe tu usuario" />
+            @if (submitted) {
+              @if (f['nom_usu'].errors?.['required']) {
+                <div class="error-message">Debe ingresar su nombre de usuario</div>
+              }
+            }
+          </div>
 
-}
+          <!-- PIN -->
+          <!-- PIN -->
+          <div class="pin-section">
+            <label class="pin-label"> PIN de 6 dígitos </label>
 
-        </div>
+            <div class="pin-container">
+              <!-- ICONO -->
+              <div class="pin-box lock-box">🔒</div>
 
-        <div class="form-group">
+              <!-- INPUTS -->
+              <input
+                #firstInput
+                type="text"
+                maxlength="1"
+                class="pin-input"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                (input)="handlePinInput($event, secondInput)"
+                (keypress)="onNumberInput($event)"
+              />
 
-          <label>Contraseña</label>
+              <input
+                #secondInput
+                type="text"
+                maxlength="1"
+                class="pin-input"
+                (input)="handlePinInput($event, thirdInput)"
+                (keydown)="movePrevious($event, firstInput)"
+                (keypress)="onNumberInput($event)"
+              />
 
-          <input
-            type="password"
-            formControlName="password"
-            [ngClass]="{'is-invalid': submitted && f['password'].errors}"
-            placeholder="********"
-          >
-          
-             @if (submitted) {
+              <input
+                #thirdInput
+                type="text"
+                maxlength="1"
+                class="pin-input"
+                (input)="handlePinInput($event, fourthInput)"
+                (keydown)="movePrevious($event, secondInput)"
+                (keypress)="onNumberInput($event)"
+              />
 
-                  @if (f['password'].errors?.['required']) {
+              <input
+                #fourthInput
+                type="text"
+                maxlength="1"
+                class="pin-input"
+                (input)="handlePinInput($event, fifthInput)"
+                (keydown)="movePrevious($event, thirdInput)"
+                (keypress)="onNumberInput($event)"
+              />
 
-                    <div class="error-message">
-                      La contraseña es obligatoria
-                    </div>
+              <input
+                #fifthInput
+                type="text"
+                maxlength="1"
+                class="pin-input"
+                (input)="handlePinInput($event, sixthInput)"
+                (keydown)="movePrevious($event, fourthInput)"
+                (keypress)="onNumberInput($event)"
+              />
 
-                  }
+              <input
+                #sixthInput
+                type="text"
+                maxlength="1"
+                class="pin-input"
+                (input)="handleLastPinInput($event, btniniciarsesion); validardigitosPIN()"
+                (keydown)="movePrevious($event, fifthInput)"
+                (keypress)="onNumberInput($event)"
+              />
+            </div>
 
-                  @if (f['password'].errors?.['minlength']) {
+            <!-- HELP -->
+            <div class="pin-help">
+              <span class="shield-icon"> 🛡️ </span>
 
-                    <div class="error-message">
-                      La contraseña debe tener al menos 6 caracteres
-                    </div>
+              <span> Escribe tu PIN de 6 dígitos </span>
+            </div>
+            @if (submitted) {
+              @if (f['pin'].errors?.['required']) {
+                <div class="error-message">El PIN es obligatorio</div>
+              }
 
-                  }
+              @if (f['pin'].errors?.['minlength']) {
+                <div class="error-message">El PIN debe tener 6 caracteres</div>
+              }
+            }
+          </div>
+        </ng-container>
 
-}
-
-        </div>
-
-      </ng-container>
-
-      <!-- alumno -->
-      <ng-container *ngIf="selectedRole()?.tipo === 'ALUMNO'">
-
-        <!-- AVATARES -->
-  <div class="avatars-section">
-
-    <label class="avatar-label">
-      Selecciona tu avatar
-    </label>
-
-    <div class="avatars-grid">
-
-      <div
-        class="avatar-option"
-        *ngFor="let avatar of avatars"
-        [class.selected]="selectedAvatar === avatar"
-        (click)="selectAvatar(avatar)"
-      >
-
-        <img
-          [src]="avatar"
-          alt="Avatar"
+        <!-- BUTTON -->
+        <button
+          #btniniciarsesion
+          type="submit"
+          class="login-button"
+          [style.background]="selectedRole()?.color"
         >
-
-      </div>
-
-    </div>
-
+          Iniciar sesión
+        </button>
+      </form>
+    }
   </div>
-
-  <!-- USERNAME -->
-  <div class="form-group">
-
-    <label>Usuario</label>
-
-    <input
-      type="text"
-      formControlName="username"
-      placeholder="Escribe tu usuario"
-    >
-
-  </div>
-
-  <!-- PIN -->
-  <!-- PIN -->
-<div class="pin-section">
-
-  <label class="pin-label">
-    PIN de 6 dígitos
-  </label>
-
-  <div class="pin-container">
-
-    <!-- ICONO -->
-    <div class="pin-box lock-box">
-      🔒
-    </div>
-
-    <!-- INPUTS -->
-    <input
-        #firstInput
-        type="text"
-        maxlength="1"
-        class="pin-input"
-        inputmode="numeric"
-        pattern="[0-9]*"
-        (input)="handlePinInput($event, secondInput)"
-        (keypress)="onNumberInput($event)"
-    >
-
-      <input
-    #secondInput
-    type="text"
-    maxlength="1"
-    class="pin-input"
-
-    (input)="handlePinInput($event, thirdInput)"
-    (keydown)="movePrevious($event, firstInput)"
-    (keypress)="onNumberInput($event)"
-  >
-
-    <input
-    #thirdInput
-    type="text"
-    maxlength="1"
-    class="pin-input"
-
-    (input)="handlePinInput($event, fourthInput)"
-    (keydown)="movePrevious($event, secondInput)"
-    (keypress)="onNumberInput($event)"
-  >
-
-     <input
-    #fourthInput
-    type="text"
-    maxlength="1"
-    class="pin-input"
-
-    (input)="handlePinInput($event, fifthInput)"
-    (keydown)="movePrevious($event, thirdInput)"
-    (keypress)="onNumberInput($event)"
-  >
-
-    <input
-    #fifthInput
-    type="text"
-    maxlength="1"
-    class="pin-input"
-
-    (input)="handlePinInput($event, sixthInput)"
-    (keydown)="movePrevious($event, fourthInput)"
-    (keypress)="onNumberInput($event)"
-  >
-
-    <input
-    #sixthInput
-    type="text"
-    maxlength="1"
-    class="pin-input"
-    (input)="handleLastPinInput($event, btniniciarsesion)"
-    (keydown)="movePrevious($event, fifthInput)"
-    (keypress)="onNumberInput($event)"
-  >
-
-  </div>
-
-  <!-- HELP -->
-  <div class="pin-help">
-
-    <span class="shield-icon">
-      🛡️
-    </span>
-
-    <span>
-      Escribe tu PIN de 6 dígitos
-    </span>
-
-  </div>
-
-</div>
-
-      </ng-container>
-
-      <!-- BUTTON -->
-      <button
-        #btniniciarsesion
-        type="submit"
-        class="login-button"
-        [style.background]="selectedRole()?.color"
-      >
-        Iniciar sesión
-      </button>
-
-    </form>
-
-
-}
-   
-
-  </div>
-
 </div>

@@ -1,0 +1,148 @@
+.anios-container {
+  padding: 24px;
+  background: #f8f9ff;
+  min-height: 100vh;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.icon-box {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  background: #f1ecff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-box mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: #6c3df4;
+}
+
+.header-left h1 {
+  font-size: 38px;
+  font-weight: 700;
+  color: #12153d;
+  margin: 0;
+}
+
+.header-left p {
+  color: #6f7694;
+  margin: 0;
+}
+
+.btn-nuevo {
+  background: #6c3df4;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+}
+
+.card-kpi {
+  border: none;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+}
+
+.icon-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success {
+  background: #e7f8ee;
+  color: #16a34a;
+}
+
+.warning {
+  background: #fff7da;
+  color: #ca8a04;
+}
+
+.primary {
+  background: #eef3ff;
+  color: #2563eb;
+}
+
+.purple {
+  background: #f2ebff;
+  color: #7c3aed;
+}
+
+.table-card {
+  border-radius: 20px;
+  border: none;
+  padding: 24px;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.filters {
+  display: flex;
+  gap: 15px;
+}
+
+.badge-activo {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 8px 14px;
+  border-radius: 10px;
+}
+
+.btn-icon {
+  border: none;
+  background: #f4f5fb;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  margin-right: 6px;
+}
+
+.edit {
+  color: #6c3df4;
+}
+
+.close {
+  color: #ef4444;
+}
+
+.view {
+  color: #2563eb;
+}
+
+.badge:empty {
+  display: inline-block;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
