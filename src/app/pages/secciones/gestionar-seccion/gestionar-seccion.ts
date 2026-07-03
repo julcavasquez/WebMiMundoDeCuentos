@@ -1,12 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectorRef, Component, HostListener, inject, OnInit, signal } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SeccionesService } from '../../../core/services/secciones.service';
 import { Secciones } from '../../../core/models/secciones';
 import { AnioLectivoService } from '../../../core/services/aniolectivo.service';
+import { Usuario } from '../../../core/models/usuario';
+import { UsuariosService } from '../../../core/services/usuarios.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-gestionar-seccion',
@@ -23,6 +32,40 @@ import { AnioLectivoService } from '../../../core/services/aniolectivo.service';
   styleUrl: './gestionar-seccion.scss',
 })
 export class GestionarSeccion implements OnInit {
+  @HostListener('document:click', ['$event'])
+  clickFuera(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+
+    if (!target.closest('.autocomplete')) {
+      this.mostrarListaDocentes = false;
+    }
+  }
+  textoBusqueda = new FormControl('');
+  filtrarDocentes() {
+    const texto = (this.textoBusqueda.value ?? '').trim().toLowerCase();
+
+    if (!texto) {
+      this.docentesDisponibles = [...this.docentes];
+
+      return;
+    }
+
+    this.docentesDisponibles = this.docentes.filter(
+      (docente: any) =>
+        `${docente.nombres} ${docente.apellidos}`.toLowerCase().includes(texto) ||
+        docente.correo.toLowerCase().includes(texto),
+    );
+  }
+  seleccionarDocente(docente: any): void {
+    this.docenteSeleccionado = docente;
+    this.textoBusqueda.setValue(`${docente.nombres} ${docente.apellidos}`);
+    //this.textoBusqueda = `${docente.nombres} ${docente.apellidos}`;
+    this.form.patchValue({
+      id_docente: docente.id_usu,
+      id_seccion: this.seccion?.id_seccion,
+    });
+    this.mostrarListaDocentes = false;
+  }
   idSeccion!: number;
   private aniolectivoService = inject(AnioLectivoService);
   anioLectivoActivo: any = null;
@@ -34,101 +77,41 @@ export class GestionarSeccion implements OnInit {
   docenteSeleccionado: any = [];
   private activatedRoute = inject(ActivatedRoute);
   private seccionService = inject(SeccionesService);
+  private usuarioService = inject(UsuariosService);
   seccion: Secciones | null = null;
-  //==============================
-  // Carga al iniciar componente
-  //==============================
-
-  //==============================
-  // Información de la sección
-  //==============================
-
-  //==============================
-  // Docente
-  //==============================
+  /**
+   * Lista original obtenida desde la API
+   */
+  docentes: any[] = [];
+  docentesDisponibles: any[] = [];
+  private fb = inject(FormBuilder);
+  form = this.fb.group({
+    id_docente: ['', Validators.required],
+    id_seccion: [0, Validators.required],
+    observaciones: [''],
+  });
 
   docente: any = {
-    id_docente: 5,
-
-    nombres: 'María Pérez López',
-
-    correo: 'mperez@colegio.edu',
-
-    dni: '12345678',
-
-    foto: 'assets/img/avatar-docente.png',
+    nombres: '',
+    correo: '',
+    documento: '',
   };
 
-  docentesDisponibles: any[] = [
-    {
-      id_docente: 1,
+  mostrarListaDocentes = false;
 
-      nombres: 'María Pérez López',
-
-      correo: 'mperez@colegio.edu',
-
-      dni: '12345678',
-
-      foto: 'assets/img/avatar-docente.png',
-    },
-    {
-      id_docente: 2,
-
-      nombres: 'María Pérez López',
-
-      correo: 'mperez@colegio.edu',
-
-      dni: '12345678',
-
-      foto: 'assets/img/avatar-docente.png',
-    },
-    {
-      id_docente: 3,
-
-      nombres: 'María Pérez López',
-
-      correo: 'mperez@colegio.edu',
-
-      dni: '12345678',
-
-      foto: 'assets/img/avatar-docente.png',
-    },
-  ];
+  docentesFiltrados: Usuario[] = [];
 
   //==============================
   // Lista de alumnos
   //==============================
 
-  alumnos: any[] = [
-    {
-      id: 1,
-      nombres: 'Juan Martínez García',
-      dni: '87654321',
-      correo: 'juan@correo.com',
-      fecha: '10/03/2026',
-    },
-
-    {
-      id: 2,
-      nombres: 'Lucía Sánchez Ramírez',
-      dni: '87654322',
-      correo: 'lucia@correo.com',
-      fecha: '11/03/2026',
-    },
-
-    {
-      id: 3,
-      nombres: 'Carlos Rodríguez Díaz',
-      dni: '87654323',
-      correo: 'carlos@correo.com',
-      fecha: '11/03/2026',
-    },
-  ];
+  alumnos: any[] = [];
   private cd = inject(ChangeDetectorRef);
 
   //constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.docenteSeleccionado = null;
     this.activatedRoute.params.subscribe((params) => {
       const idSeccion = Number(params['id_seccion']);
       this.obtenerSeccion(idSeccion);
@@ -149,11 +132,20 @@ export class GestionarSeccion implements OnInit {
   //=========================================
   // Obtener información de la sección
   //=========================================
-
+  siHayDocente: boolean = true;
   obtenerSeccion(id: number) {
     this.seccionService.getSeccionId(id).subscribe({
       next: (response: any) => {
         this.seccion = response.data;
+        console.log(this.seccion);
+        if (response.data.docente != null) {
+          this.siHayDocente = true;
+          this.docente.nombres = response.data.docente;
+          this.docente.correo = response.data.correo;
+          this.docente.documento = response.data.numero_documento;
+        } else {
+          this.siHayDocente = false;
+        }
         this.cd.markForCheck();
         console.log(this.seccion?.grado);
       },
@@ -212,6 +204,13 @@ export class GestionarSeccion implements OnInit {
     console.log('Eliminar sección');
   }
 
+  limpiarSeleccion(): void {
+    this.docenteSeleccionado = null;
+    this.docentesDisponibles = [...this.docentes];
+    this.textoBusqueda.setValue('');
+    this.mostrarListaDocentes = true;
+  }
+
   //=========================================
   // Saber si puede eliminar
   //=========================================
@@ -220,7 +219,21 @@ export class GestionarSeccion implements OnInit {
     return this.docente == null && this.alumnos.length == 0;
   }
 
-  obtenerDocentesDisponibles() {}
+  obtenerDocentesDisponibles() {
+    console.log(this.anioLectivoActivo);
+    this.usuarioService.getListaDocentes(this.anioLectivoActivo.id_anio_lectivo).subscribe({
+      next: (response: any) => {
+        this.docentes = response.data;
+        this.docentesDisponibles = [...response.data];
+        console.log(this.docentesDisponibles);
+      },
+
+      error: (error) => {
+        console.error(error);
+      },
+    });
+  }
+
   abrirModalDocente() {
     this.obtenerDocentesDisponibles();
     this.mostrarModalDocente = true;
@@ -228,8 +241,13 @@ export class GestionarSeccion implements OnInit {
 
   cerrarModalDocente() {
     this.docenteSeleccionado = null;
-
     this.mostrarModalDocente = false;
+    this.form.reset({
+      id_docente: '',
+      id_seccion: 0,
+      observaciones: '',
+    });
+    this.limpiarSeleccion();
   }
 
   guardarDocente() {
@@ -237,9 +255,43 @@ export class GestionarSeccion implements OnInit {
       return;
     }
 
-    console.log(this.docenteSeleccionado);
+    if (this.form.getRawValue().observaciones === '') {
+      this.form.patchValue({
+        observaciones: 'Primera asignación',
+      });
+    }
 
-    this.cerrarModalDocente();
+    console.log(this.form.getRawValue());
+    this.usuarioService.asignarDocente(this.form.getRawValue()).subscribe({
+      next: (res) => {
+        Swal.fire({
+          title: '✅ Docente Asignado',
+          text: 'Se asigno correctamente el docente a la sección.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#3085d6',
+        }).then(() => {
+          // Cerrar modal
+          this.obtenerSeccion(Number(this.form.getRawValue().id_seccion));
+          this.cerrarModalDocente();
+          //this.router.navigate(['/panel/usuarios']);
+          // if(res.rol == 'ADMINISTRADOR'){
+          // this.router.navigate(['/admin/dashboard']);
+          // }else{
+          //   if(res.rol == 'estudiante'){
+          //     this.router.navigate(['/estudiante/panel']);
+          //   }
+          // }
+        });
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: err.error?.message || 'Ocurrió un error inesperado',
+        });
+      },
+    });
   }
 
   seleccionarAlumno(alumno: any) {
@@ -252,6 +304,15 @@ export class GestionarSeccion implements OnInit {
     } else {
       this.alumnosSeleccionados.push(alumno);
     }
+  }
+
+  btndocenteSeleccionado(docente: any) {
+    this.docenteSeleccionado = docente;
+    this.form.patchValue({
+      id_docente: docente.id_usu,
+      id_seccion: this.seccion?.id_seccion,
+    });
+    console.log(this.form.getRawValue());
   }
 
   estaSeleccionado(alumno: any) {
@@ -268,5 +329,30 @@ export class GestionarSeccion implements OnInit {
   }
   guardarAlumnos() {
     console.log(this.alumnosSeleccionados);
+  }
+
+  buscarDocentes(): void {
+    const texto = this.textoBusquedaValor.trim().toLowerCase();
+    if (texto.length < 2) {
+      this.docentesFiltrados = [];
+      this.mostrarListaDocentes = false;
+      return;
+    }
+
+    this.docentesFiltrados = this.docentes.filter(
+      (docente) =>
+        `${docente.nombres} ${docente.apellidos}`.toLowerCase().includes(texto) ||
+        docente.correo.toLowerCase().includes(texto),
+    );
+
+    this.mostrarListaDocentes = true;
+  }
+
+  abrirBusqueda(): void {
+    this.mostrarListaDocentes = true;
+  }
+
+  get textoBusquedaValor(): string {
+    return this.textoBusqueda.value ?? '';
   }
 }

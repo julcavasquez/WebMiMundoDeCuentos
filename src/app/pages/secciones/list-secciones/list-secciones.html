@@ -104,19 +104,18 @@
                   <!-- Docente -->
 
                   <td>
-                    <!-- @if (seccion.docente) {
+                    @if (seccion?.docente) {
                       <span>
-                        {{ seccion.docente }}
+                        {{ seccion?.docente }}
                       </span>
                     } @else {
                       <span class="text-danger fw-semibold"> Sin asignar </span>
-                    } -->
-                    sin asignar
+                    }
                   </td>
 
                   <!-- Cantidad alumnos -->
 
-                  <td class="text-center">totalAlumnos</td>
+                  <td class="text-center">{{ seccion.total_alumnos }}</td>
 
                   <!-- Estado -->
 

@@ -333,46 +333,696 @@ RESPONSIVE
 }
 
 // MODAL ASIGNAR TARJETA
-.teacher-item {
+// .teacher-item {
+//   display: flex;
+
+//   align-items: center;
+
+//   gap: 15px;
+
+//   padding: 18px;
+
+//   border: 1px solid #dee2e6;
+
+//   border-radius: 15px;
+
+//   cursor: pointer;
+
+//   transition: 0.3s;
+// }
+
+// .teacher-item:hover {
+//   border-color: #7b4dff;
+
+//   background: #faf7ff;
+// }
+
+// .teacher-avatar {
+//   width: 55px;
+
+//   height: 55px;
+
+//   border-radius: 50%;
+
+//   background: #6f42c1;
+
+//   color: white;
+
+//   display: flex;
+
+//   justify-content: center;
+
+//   align-items: center;
+
+//   font-weight: 700;
+
+//   font-size: 20px;
+// }
+
+// .teacher-item.selected {
+//   border: 2px solid #7b4dff;
+
+//   background: #f3ecff;
+// }
+/*=====================================================
+  MODAL
+======================================================*/
+
+.modal-content {
+  border-radius: 22px;
+
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 30px 35px;
+
+  border-bottom: 1px solid #ececec;
+}
+
+.modal-header h4 {
+  font-size: 38px;
+
+  font-weight: 700;
+
+  color: #222;
+}
+
+.modal-header small {
+  font-size: 17px;
+
+  color: #707070;
+}
+
+.modal-body {
+  padding: 30px 35px;
+}
+
+.footer-docente {
+  padding: 22px 35px;
+
+  border-top: 1px solid #ececec;
+}
+
+/*=====================================================
+  TITULOS DE CADA PASO
+======================================================*/
+
+.section-title {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+}
+
+.section-title h5 {
+  color: #673ab7;
+
+  font-weight: 700;
+
+  font-size: 20px;
+}
+
+.step-number {
+  width: 30px;
+
+  height: 30px;
+
+  border-radius: 50%;
+
+  background: #673ab7;
+
+  color: white;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-weight: 700;
+
+  font-size: 20px;
+}
+
+/*=====================================================
+  BUSCADOR
+======================================================*/
+
+.search-box {
+  display: flex;
+
+  align-items: center;
+
+  border: 2px solid #6f42c1;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  padding-left: 18px;
+
+  background: white;
+}
+
+.search-box i {
+  font-size: 22px;
+
+  color: #6f42c1;
+}
+
+.search-box input {
+  height: 60px;
+
+  font-size: 20px;
+}
+
+.search-box input:focus {
+  box-shadow: none;
+}
+
+/*=====================================================
+  SELECT
+======================================================*/
+
+.custom-select {
+  position: relative;
+}
+
+.select-header {
+  height: 68px;
+
+  border: 2px solid #6f42c1;
+
+  border-radius: 16px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 0 22px;
+
+  background: white;
+
+  cursor: pointer;
+
+  font-size: 21px;
+
+  transition: 0.25s;
+}
+
+.select-header:hover {
+  border-color: #5b2ab8;
+}
+
+.select-header i {
+  font-size: 24px;
+
+  color: #5b2ab8;
+}
+
+/*=====================================================
+  DROPDOWN DOCENTES
+======================================================*/
+
+.select-dropdown {
+  position: absolute;
+
+  top: 75px;
+
+  left: 0;
+
+  right: 0;
+
+  background: #fff;
+
+  border-radius: 18px;
+
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+
+  border: 1px solid #ececec;
+
+  max-height: 380px;
+
+  overflow-y: auto;
+
+  z-index: 9999;
+
+  animation: fadeDropdown 0.18s ease;
+}
+
+/* Scroll */
+
+.select-dropdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+.select-dropdown::-webkit-scrollbar-thumb {
+  background: #cfcfcf;
+
+  border-radius: 20px;
+}
+
+.select-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/*=====================================================
+  ITEM
+======================================================*/
+
+.option {
   display: flex;
 
   align-items: center;
 
   gap: 15px;
 
-  padding: 18px;
-
-  border: 1px solid #dee2e6;
-
-  border-radius: 15px;
+  padding: 18px 20px;
 
   cursor: pointer;
 
-  transition: 0.3s;
+  transition: 0.25s;
+
+  border-bottom: 1px solid #f3f3f3;
 }
 
-.teacher-item:hover {
-  border-color: #7b4dff;
+.option:last-child {
+  border-bottom: none;
+}
 
-  background: #faf7ff;
+.option:hover {
+  background: #f6f2ff;
+}
+
+.option.active {
+  background: #efe6ff;
+}
+
+/*=====================================================
+  AVATAR
+======================================================*/
+
+.avatar {
+  width: 54px;
+
+  height: 54px;
+
+  border-radius: 50%;
+
+  background: #673ab7;
+
+  color: #fff;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  flex-shrink: 0;
+}
+
+/*=====================================================
+  DATOS
+======================================================*/
+
+.option-info {
+  flex: 1;
+}
+
+.option-name {
+  font-size: 17px;
+
+  font-weight: 600;
+
+  color: #222;
+}
+
+.option-email {
+  color: #6f6f6f;
+
+  font-size: 14px;
+
+  margin-top: 3px;
+}
+
+/*=====================================================
+  BADGE DISPONIBLE
+======================================================*/
+
+.badge-disponible {
+  background: #e7f8ee;
+
+  color: #16a34a;
+
+  padding: 6px 12px;
+
+  border-radius: 20px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  margin-right: 10px;
+}
+
+/*=====================================================
+  CHECK
+======================================================*/
+
+.check-icon {
+  color: #673ab7;
+
+  font-size: 26px;
+}
+
+/*=====================================================
+  FOOTER
+======================================================*/
+
+.dropdown-footer {
+  background: #fafafa;
+
+  padding: 12px 18px;
+
+  font-size: 14px;
+
+  color: #666;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+.dropdown-footer i {
+  color: #673ab7;
+}
+
+/*=====================================================
+  ANIMACION
+======================================================*/
+
+@keyframes fadeDropdown {
+  from {
+    opacity: 0;
+
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+/*=====================================================
+  TARJETAS DOCENTE
+======================================================*/
+
+.teacher-card {
+  border: 1px solid #e9e9e9;
+
+  border-radius: 18px;
+
+  padding: 18px;
+
+  background: #fff;
+
+  transition: 0.25s;
+
+  min-height: 145px;
+}
+
+.teacher-card small {
+  display: block;
+
+  font-size: 13px;
+
+  color: #7a7a7a;
+
+  margin-bottom: 12px;
+
+  font-weight: 600;
+}
+
+.teacher-card.actual {
+  border-left: 5px solid #f59e0b;
+}
+
+.teacher-card.nuevo {
+  border-left: 5px solid #16a34a;
+}
+
+.teacher-body {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
 }
 
 .teacher-avatar {
+  width: 60px;
+
+  height: 60px;
+
+  border-radius: 50%;
+
+  background: #f59e0b;
+
+  color: white;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 22px;
+
+  font-weight: 700;
+
+  flex-shrink: 0;
+}
+
+.teacher-avatar.success {
+  background: #16a34a;
+}
+
+.teacher-body h6 {
+  margin: 0;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  color: #222;
+}
+
+.teacher-body small {
+  margin: 2px 0 8px;
+
+  font-size: 14px;
+
+  color: #777;
+}
+
+.badge-actual {
+  display: inline-block;
+
+  background: #fff7e6;
+
+  color: #b7791f;
+
+  padding: 5px 12px;
+
+  border-radius: 30px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+/*=====================================================
+  FLECHA
+======================================================*/
+
+.arrow-change {
   width: 55px;
 
   height: 55px;
 
   border-radius: 50%;
 
-  object-fit: cover;
+  background: #673ab7;
+
+  color: white;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 24px;
+
+  box-shadow: 0 8px 18px rgba(103, 58, 183, 0.25);
 }
 
-.teacher-item.selected {
-  border: 2px solid #7b4dff;
+/*=====================================================
+  TEXTAREA
+======================================================*/
 
-  background: #f3ecff;
+.textarea-observacion {
+  border-radius: 18px;
+
+  border: 2px solid #d9d9d9;
+
+  resize: none;
+
+  padding: 18px;
+
+  font-size: 16px;
+
+  transition: 0.25s;
 }
 
+.textarea-observacion:focus {
+  border-color: #673ab7;
+
+  box-shadow: 0 0 0 0.2rem rgba(103, 58, 183, 0.15);
+}
+
+.contador-caracteres {
+  font-size: 13px;
+
+  color: #888;
+}
+
+/*=====================================================
+  ALERTA
+======================================================*/
+
+.alert-importante {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 16px;
+
+  background: #fff8e8;
+
+  border: 1px solid #ffe4a8;
+
+  border-radius: 18px;
+
+  padding: 18px;
+
+  margin-top: 20px;
+}
+
+.icon-alerta {
+  width: 42px;
+
+  height: 42px;
+
+  border-radius: 50%;
+
+  background: #f59e0b;
+
+  color: white;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 20px;
+
+  flex-shrink: 0;
+}
+
+.titulo-alerta {
+  font-weight: 700;
+
+  color: #8a5a00;
+
+  margin-bottom: 4px;
+}
+
+.descripcion-alerta {
+  color: #7b6a3d;
+
+  line-height: 1.5;
+
+  font-size: 14px;
+}
+
+/*=====================================================
+  BOTONES
+======================================================*/
+
+.btn-cancelar {
+  border-radius: 12px;
+
+  padding: 11px 28px;
+
+  font-weight: 600;
+}
+
+.btn-guardar {
+  border-radius: 12px;
+
+  padding: 11px 30px;
+
+  font-weight: 600;
+
+  background: #673ab7;
+
+  border: none;
+}
+
+.btn-guardar:hover {
+  background: #5b2ab8;
+}
+
+.btn-guardar:disabled {
+  background: #b7a5de;
+
+  cursor: not-allowed;
+}
+
+/*=====================================================
+  RESPONSIVE
+======================================================*/
+
+@media (max-width: 768px) {
+  .arrow-change {
+    transform: rotate(90deg);
+
+    margin: 20px auto;
+  }
+
+  .modal-header h4 {
+    font-size: 28px;
+  }
+
+  .section-title h5 {
+    font-size: 22px;
+  }
+}
 //MODAL ASISGNAR ALUMNOS
 .student-list {
   max-height: 520px;
@@ -434,4 +1084,350 @@ RESPONSIVE
   background: #f8f9fa;
 
   margin-bottom: 10px;
+}
+
+/*====================================================
+ AUTOCOMPLETE
+====================================================*/
+
+.autocomplete {
+  position: relative;
+
+  width: 100%;
+}
+
+/*====================================================
+ INPUT
+====================================================*/
+
+.autocomplete-input {
+  position: relative;
+}
+
+.autocomplete-input input {
+  height: 60px;
+
+  border-radius: 16px;
+
+  border: 2px solid #d9d9d9;
+
+  padding-left: 50px;
+
+  padding-right: 45px;
+
+  font-size: 16px;
+
+  transition: 0.25s;
+}
+
+.autocomplete-input input:focus {
+  border-color: #6f42c1;
+
+  box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.15);
+}
+
+.autocomplete-input i.bi-search {
+  position: absolute;
+
+  left: 18px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: #6f42c1;
+
+  font-size: 20px;
+
+  z-index: 10;
+}
+
+/*====================================================
+ LIMPIAR
+====================================================*/
+
+.btn-limpiar {
+  position: absolute;
+
+  right: 12px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  border: none;
+
+  background: none;
+
+  padding: 0;
+
+  color: #999;
+
+  font-size: 20px;
+}
+
+.btn-limpiar:hover {
+  color: #dc3545;
+}
+
+/*====================================================
+ LISTA
+====================================================*/
+
+.autocomplete-list {
+  position: absolute;
+
+  width: 100%;
+
+  margin-top: 8px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+
+  overflow: hidden;
+
+  max-height: 340px;
+
+  overflow-y: auto;
+
+  z-index: 1055;
+}
+
+/* Scroll */
+
+.autocomplete-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.autocomplete-list::-webkit-scrollbar-thumb {
+  background: #cccccc;
+
+  border-radius: 20px;
+}
+
+/*====================================================
+ ITEM
+====================================================*/
+
+.autocomplete-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 15px 18px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-item:hover {
+  background: #f5f0ff;
+}
+
+/*====================================================
+ AVATAR
+====================================================*/
+
+.avatar-docente {
+  width: 50px;
+
+  height: 50px;
+
+  border-radius: 50%;
+
+  background: #6f42c1;
+
+  color: white;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-weight: 700;
+
+  font-size: 17px;
+
+  flex-shrink: 0;
+}
+
+.avatar-docente.grande {
+  width: 64px;
+
+  height: 64px;
+
+  font-size: 22px;
+}
+
+/*====================================================
+ INFO
+====================================================*/
+
+.docente-info {
+  flex: 1;
+}
+
+.docente-info .nombre {
+  font-weight: 600;
+
+  color: #222;
+
+  font-size: 16px;
+}
+
+.docente-info .correo {
+  font-size: 13px;
+
+  color: #7d7d7d;
+
+  margin-top: 2px;
+}
+
+/*====================================================
+ BADGE
+====================================================*/
+
+.estado {
+  background: #e9f8ef;
+
+  color: #198754;
+
+  padding: 6px 12px;
+
+  border-radius: 30px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+/*====================================================
+ SIN REGISTROS
+====================================================*/
+
+.sin-registros {
+  padding: 35px;
+
+  text-align: center;
+
+  color: #999;
+}
+
+.sin-registros i {
+  font-size: 38px;
+
+  color: #6f42c1;
+}
+
+.sin-registros p {
+  margin-top: 10px;
+
+  margin-bottom: 0;
+}
+
+/*====================================================
+ DOCENTE SELECCIONADO
+====================================================*/
+
+.seleccionado-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  border: 2px solid #6f42c1;
+
+  background: #faf7ff;
+
+  border-radius: 18px;
+
+  padding: 18px;
+}
+
+.seleccionado-card h6 {
+  margin: 0;
+
+  font-weight: 700;
+
+  color: #222;
+}
+
+.seleccionado-card small {
+  color: #777;
+}
+
+/*====================================================
+ ANIMACION
+====================================================*/
+
+.autocomplete-list {
+  animation: fadeIn 0.18s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+/*====================================================
+ RESPONSIVE
+====================================================*/
+
+@media (max-width: 768px) {
+  .autocomplete-item {
+    padding: 14px;
+  }
+
+  .avatar-docente {
+    width: 44px;
+
+    height: 44px;
+
+    font-size: 15px;
+  }
+}
+
+.autocomplete-message {
+  padding: 35px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  color: #7a7a7a;
+
+  font-size: 15px;
+}
+
+.autocomplete-message i {
+  color: #6f42c1;
+
+  font-size: 22px;
 }

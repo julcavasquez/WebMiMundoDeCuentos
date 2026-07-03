@@ -4,6 +4,7 @@ export interface Usuario {
   apellidos: string;
   rol: string;
   correo: string;
+  numero_documento: string;
   medio_acceso: string;
   estado: number;
 }
